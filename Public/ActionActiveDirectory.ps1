@@ -10,24 +10,35 @@ Function ActionActiveDirectory {
         OrganizationalUnit {
             $Users = Get-ActiveDirectoryUsersByOU -OrganizationalUnit $Object.Trigger.Value
         }
+        GroupMembership {
+            $Group = Get-ADGroup -Identity $Object.Trigger.Value
+            if ($Group) {
+                $Users = Get-ADGroupMember -Identity $Group
+            }
+        }
     }
 
 
     $CountUsers = Get-ObjectCount -Object $Users
-    Write-Color -Text '[+] ', 'Action ', $Name, ' on ', $CountUsers, ' objects based on trigger ', $Object.Trigger.Trigger, ' with value ', $Object.Trigger.Value -Color Green, White, Green, White, Green, White, Green, White, Green -StartSpaces 4
+    Write-Color -Text '[+] ', 'Action ', $Name, ' on ', $CountUsers, ' objects based on trigger ', $Object.Trigger.Trigger, ' with value ', $Object.Trigger.Value -Color DarkGreen, White, DarkGreen, White, DarkGreen, White, DarkGreen, White, DarkGreen -StartSpaces 4
     foreach ($User in $Users) {
-        $WriteSucesss = @{
-            Text        = '[#] ', 'Execution ', $Name, ' on account ', $User.UserPrincipalName, ' done.'
+        $WriteSuccess = @{
+            Text        = '[+] ', 'Execution ', $Name, ' on account ', $User.distinguishedName, ' done.'
             Color       = 'Cyan', 'White', 'Cyan', 'White', 'Cyan', 'White', 'Cyan', 'White', 'Cyan'
             StartSpaces = 6
         }
         $WriteSkip = @{
-            Text        = '[#] ', 'Execution ', $Name, ' on account ', $User.UserPrincipalName, ' skipped.'
+            Text        = '[-] ', 'Execution ', $Name, ' on account ', $User.distinguishedName, ' skipped.'
             Color       = 'Yellow', 'White', 'Yellow', 'White', 'Yellow', 'White', 'Yellow', 'White', 'Yellow'
             StartSpaces = 6
         }
-        $WriteStatus = @{
+        $WriteStatusSuccess = @{
             StartSpaces = 10
+            Color       = 'Green', 'White', 'Green', 'White', 'Green'
+        }
+        $WriteStatusFail = @{
+            StartSpaces = 10
+            Color       = 'Red', 'White', 'Red', 'White', 'Red'
         }
 
         $Result = switch ( $Action ) {
@@ -37,9 +48,9 @@ Function ActionActiveDirectory {
                     Write-Color @WriteSuccess
                     foreach ($Output in $CommandOutput) {
                         if ($Output.Status) {
-                            Write-Color @WriteStatus -Text '[+] ', 'Successfully processed ', $Output.Output
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
                         } else {
-                            Write-Color @WriteStatus -Text '[-] ', 'Skipped ', $Output.Output
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
                         }
                     }
                 } else {
@@ -63,36 +74,128 @@ Function ActionActiveDirectory {
                 if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
             }
             AccountRemoveGroupsAll {
-                $Status = Remove-ADUserGroups -User $User -All
-                if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+                $CommandOutput = Remove-ADUserGroups -User $User -All
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
             AccountRemoveGroupsSecurity {
-                $Status = Remove-ADUserGroups -User $User -GroupCategory Security
-                if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+                $CommandOutput = Remove-ADUserGroups -User $User -GroupCategory Security
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
             AccountRemoveGroupsDistribution {
-                $Status = Remove-ADUserGroups -User $User -GroupCategory Distribution
-                if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+                $CommandOutput = Remove-ADUserGroups -User $User -GroupCategory Distribution
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
             AccountRemoveGroupsDomainLocal {
-                $Status = Remove-ADUserGroups -User $User -GroupScope DomainLocal
-                if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+                $CommandOutput = Remove-ADUserGroups -User $User -GroupScope DomainLocal
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
             AccountRemoveGroupsGlobal {
-                $Status = Remove-ADUserGroups -User $User -GroupScope Global
-                if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+                $CommandOutput = Remove-ADUserGroups -User $User -GroupScope Global
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
             AccountRemoveGroupsUniversal {
-                $Status = Remove-ADUserGroups -User $User -GroupScope Universal
-                if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+                $CommandOutput = Remove-ADUserGroups -User $User -GroupScope Universal
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
             AccountRemoveGroupsSpecific {
-                $Status = Remove-ADUserGroups -User $User -Groups $ActionValue
-                if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+                $CommandOutput = Remove-ADUserGroups -User $User -Groups $ActionValue
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
             AccountRename {
                 $Status = Set-ADUserName -User $User -Option $ActionValue.Where -TextToAdd $ActionValue.Text
                 if ($Status) { Write-Color @WriteSuccess } else { Write-Color @WriteSkip }
+            }
+            AccountSnapshot {
+                $CommandOutput = Get-ADUserSnapshot -User $User -XmlPath $ActionValue
+                if ($CommandOutput) {
+                    Write-Color @WriteSuccess
+                    foreach ($Output in $CommandOutput) {
+                        if ($Output.Status) {
+                            Write-Color @WriteStatusSuccess -Text '[+] ', 'Successfully processed ', $Output.Output, ' Extended information: ', $Output.Extended
+                        } else {
+                            Write-Color @WriteStatusFail -Text '[-] ', 'Skipped ', $Output.Output, ' Extended information: ', $Output.Extended
+                        }
+                    }
+                } else {
+                    Write-Color @WriteSkip
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ Add-Type -TypeDefinition @"
         AccountRemoveGroupsDomainLocal, // true - false
         AccountRemoveGroupsGlobal,  // true - false
         AccountRemoveGroupsUniversal,  // true - false
-        AccountRename
+        AccountRename,
+        AccountSnapshot
     }
 "@
