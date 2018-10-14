@@ -10,7 +10,13 @@ Service -Name 'Active Directory Offboarding' {
         ActionActiveDirectory -Name 'Hide account in GAL' -Action AccountHideInGAL |
         ActionActiveDirectory -Name 'Rename Account' -Action AccountRename -ActionValue @{ Action = 'AddText'; Where = 'After'; Text = ' (offboarded)'; }
 
-    #Action -Name 'Special' -Action 'RenameName' -Value "This Value should be put to name"
+    Trigger -Name 'Reenabling my users' -Trigger OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz' |
+        Condition -Name 'No conditions' |
+        Ignore -Name 'Ignore Windows Email Address if Empty or null' -IgnoreAction MatchingEmptyOrNull -IgnoreParameter WindowsEmailAddress -IgnoreValue $true |
+        ActionActiveDirectory -Name 'Enable AD Account' -Action AccountEnable
+}
+
+Service -Name 'Active Directory Testing' {
     Trigger -Name 'Dwa' -Trigger GroupMembership -Value 'Disabled Users' |
         Ignore |
         ActionActiveDirectory -Name 'Disable Evotec Users' -Action AccountDisable

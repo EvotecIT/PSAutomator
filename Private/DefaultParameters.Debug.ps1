@@ -1,0 +1,3 @@
+$Script:Debug = @{
+    Verbose = $false
+}
