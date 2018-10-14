@@ -32,8 +32,6 @@ Function ActionActiveDirectory {
                 }
             }
             AccountHideInGAL {
-                #Write-Color -Text '[+] Action ', $Object.Trigger.Trigger -Color Cyan -StartSpaces 2
-                #Write-Color -Text '[-] Ignore ', $Object.Ignore.Name -StartSpaces 2
                 $Status = Set-ADUserSettingGAL -User $User -Option Hide
                 if ($Status) {
                     Write-Color -Text '[+] ', 'Execution ', $Name, ' on account ', $User.UserPrincipalName, ' done.' -Color Cyan, White, Cyan, White, Cyan, White, Cyan, White, Cyan -StartSpaces 4
@@ -50,7 +48,6 @@ Function ActionActiveDirectory {
                 }
             }
             AccountRename {
-                #Write-Color -Text '[+] Action ', $Object.Trigger.Trigger -Color DarkMagenta -StartSpaces 2
                 $Status = Set-ADUserName -User $User -Option $ActionValue.Where -TextToAdd $ActionValue.Text
                 if ($Status) {
                     Write-Color -Text '[+] ', 'Execution ', $Name, ' on account ', $User.UserPrincipalName, ' done.' -Color Cyan, White, Cyan, White, Cyan, White, Cyan, White, Cyan -StartSpaces 4
