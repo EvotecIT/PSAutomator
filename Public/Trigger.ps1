@@ -5,7 +5,7 @@ Function Trigger {
         [AutomatorTrigger] $Trigger,
         [string] $Value
     )
-    Write-Color -Text 'Running Trigger', ' for ', $Name -Color White, White, Green -StartSpaces 1
+    Write-Color -Text 'Running Trigger', ' for ', $Name -Color White, White, Green -StartSpaces 2
     $Object = [ordered] @{}
     $Object.Trigger = @{
         Name    = $Name

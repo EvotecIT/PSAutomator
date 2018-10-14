@@ -1,6 +1,6 @@
 Clear-Host
 Import-Module PSAutomator -Force #-Verbose
-Import-Module PSSharedGoods #-Force
+Import-Module PSSharedGoods -Force
 
 Service -Name 'Active Directory Offboarding' {
     Trigger -Name 'OU Offboarded Users' -Trigger OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz' |
@@ -10,6 +10,7 @@ Service -Name 'Active Directory Offboarding' {
         ActionActiveDirectory -Name 'Hide account in GAL' -Action AccountHideInGAL |
         ActionActiveDirectory -Name 'Rename Account' -Action AccountRename -ActionValue @{ Action = 'AddText'; Where = 'After'; Text = ' (offboarded)'; } |
         ActionActiveDirectory -Name 'Remove all security groups' -Action AccountRemoveGroupsSecurity
+
 
     Trigger -Name 'Reenabling my users for testing purposes' -Trigger OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz' |
         Condition -Name 'No conditions' |
