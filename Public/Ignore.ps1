@@ -2,8 +2,8 @@ function Ignore {
     [CmdletBinding()]
     param(
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
-        $Name,
-        $IgnoreAction,
+        [string] $Name,
+        [AutomatorIgnore] $IgnoreAction,
         $IgnoreParameter,
         $IgnoreValue
     )

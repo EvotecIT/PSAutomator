@@ -3,7 +3,7 @@ Function ActionExchange {
     param (
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
         [string] $Name,
-        [AutomatorAction] $Action,
+        [AutomatorActionExchange] $Action,
         [Object] $ActionValue
     )
     $Trigger = switch ($Object.Trigger.Trigger) {
