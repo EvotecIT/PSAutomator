@@ -1,5 +1,6 @@
 Add-Type -TypeDefinition @"
     public enum AutomatorActionAD {
+        AccountAddGroupsSpecific,
         AccountDisable,
         AccountEnable,
         AccountHideInGAL,

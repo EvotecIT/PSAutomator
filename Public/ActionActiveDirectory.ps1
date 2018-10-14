@@ -27,6 +27,10 @@ Function ActionActiveDirectory {
             StartSpaces = 4
         }
         $Result = switch ( $Action ) {
+            AccountAddGroupsSpecific {
+                $Status = Add-ADUserGroups -User $User -Groups $ActionValue
+                if ($Status) { Write-Color @Sucesss } else { Write-Color @Skip }
+            }
             AccountDisable {
                 $Status = Set-ADUserStatus -User $User -Option Disable
                 if ($Status) { Write-Color @Sucesss } else { Write-Color @Skip }
@@ -68,16 +72,12 @@ Function ActionActiveDirectory {
                 if ($Status) { Write-Color @Sucesss } else { Write-Color @Skip }
             }
             AccountRemoveGroupsSpecific {
-                $Status = Remove-ADUserGroups -User $User -Groups $BlockActiveDirectory.AccountRemoveGroupsSpecific
+                $Status = Remove-ADUserGroups -User $User -Groups $ActionValue
                 if ($Status) { Write-Color @Sucesss } else { Write-Color @Skip }
             }
             AccountRename {
                 $Status = Set-ADUserName -User $User -Option $ActionValue.Where -TextToAdd $ActionValue.Text
-                if ($Status) {
-                    Write-Color -Text '[+] ', 'Execution ', $Name, ' on account ', $User.UserPrincipalName, ' done.' -Color Cyan, White, Cyan, White, Cyan, White, Cyan, White, Cyan -StartSpaces 4
-                } else {
-                    Write-Color -Text '[-] ', 'Execution ', $Name, ' on account ', $User.UserPrincipalName, ' skipped.' -Color Yellow, White, Yellow, White, Yellow, White, Yellow, White, Yellow -StartSpaces 4
-                }
+                if ($Status) { Write-Color @Sucesss } else { Write-Color @Skip }
             }
         }
     }
