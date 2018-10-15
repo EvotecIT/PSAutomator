@@ -3,19 +3,23 @@ Function Trigger {
     param (
         [string] $Name,
         [AutomatorTrigger] $Trigger,
-        [string] $Value
+        [string] $Value,
+        $Configuration
     )
-    Write-Color -Text 'Running Trigger', ' for ', $Name -Color White, White, Green -StartSpaces 2
-    $Object = [ordered] @{}
-    $Object.Trigger = @{
-        Name    = $Name
-        Trigger = $Trigger
-        Value   = $Value
+    Begin {
+
     }
-    if ($Trigger -eq 'OU' -or 'OrganizationalUnit') {
-        return $Object
-    } elseif ($Trigger -eq 'GroupMembership') {
+    Process {
+        #Write-Color $Script:Configuration.Prettify.CompanyName -Color Red
+        Write-Color -Text 'Running Trigger', ' for ', $Name -Color White, White, Green -StartSpaces 2
+        $Object = [ordered] @{}
+        $Object.Trigger = @{
+            Name    = $Name
+            Trigger = $Trigger
+            Value   = $Value
+        }
+    }
+    End {
         return $Object
     }
-    return
 }

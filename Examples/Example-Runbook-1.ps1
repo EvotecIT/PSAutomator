@@ -2,6 +2,10 @@ Clear-Host
 Import-Module PSAutomator -Force #-Verbose
 Import-Module PSSharedGoods -Force
 
+Service -Name 'Active Directory Offboarding' -Status Enable -ConfigurationPath 'C:\Support\GitHub\PSAutomator\Examples\MyConfiguration1.xml' {
+    Trigger -Name 'OU Offboarded Users' -Trigger OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz'
+}
+
 Service -Name 'Active Directory Prepare Users' {
     Trigger -Name 'Enable already disabled users' -Trigger OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz' |
         Ignore |
@@ -15,7 +19,7 @@ Service -Name 'Active Directory Disable Users in Group' {
         ActionActiveDirectory -Name 'Disable Evotec Users' -Action AccountDisable
 }
 
-Service -Name 'Active Directory Offboarding' {
+Service -Name 'Active Directory Offboarding' -ConfigurationPath 'C:\Support\GitHub\PSAutomator\Examples\MyConfiguration.xml' {
     Trigger -Name 'OU Offboarded Users' -Trigger OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz' |
         Condition -Name 'No conditions' |
         Ignore -Name 'Ignore Windows Email Address if Empty or null' -IgnoreAction MatchingEmptyOrNull -IgnoreParameter WindowsEmailAddress -IgnoreValue $true |
@@ -30,5 +34,4 @@ Service -Name 'Active Directory Offboarding' {
         Ignore -Name 'Ignore Windows Email Address if Empty or null' -IgnoreAction MatchingEmptyOrNull -IgnoreParameter WindowsEmailAddress -IgnoreValue $true |
         ActionActiveDirectory -Name 'Enable AD Account' -Action AccountEnable |
         ActionActiveDirectory -Name 'Add Domain Admins' -Action AccountAddGroupsSpecific -ActionValue 'Domain Admins'
-
 }
