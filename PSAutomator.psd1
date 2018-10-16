@@ -1,11 +1,16 @@
 @{
+
     # Script module or binary module file associated with this manifest.
     RootModule        = 'PSAutomator.psm1'
+
     # Version number of this module.
     ModuleVersion     = '0.0.1'
 
+    # Supported PSEditions
+    # CompatiblePSEditions = @()
+
     # ID used to uniquely identify this module
-    GUID              = '314b2452-9bd6-4c66-97ef-02456fa5962b'
+    GUID              = '1be9e392-28cb-4ac6-aba7-b924defbf9da'
 
     # Author of this module
     Author            = 'Przemyslaw Klys'
@@ -22,7 +27,6 @@
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.1'
 
-    # Modules that must be imported into the global environment prior to importing this module
     RequiredModules   = @('PSSharedGoods', 'PSWriteColor')
 
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
