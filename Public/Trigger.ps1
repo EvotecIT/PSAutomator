@@ -2,7 +2,7 @@ Function Trigger {
     [CmdletBinding()]
     param (
         [string] $Name,
-        [AutomatorTrigger] $Trigger,
+        [PSAutomator.Trigger] $Trigger,
         [string] $Value,
         $Configuration
     )

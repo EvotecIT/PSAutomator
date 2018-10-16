@@ -21,7 +21,7 @@ Function Service {
     }
     End {
         $TimeEnd = $TimeRun | Stop-TimeLog -Option 'Array'
-        Write-Color -Text 'Ending Service for ', $Name, ' - Time to Execute: ', $TimeEnd -Color White, Green, White, Green
+        Write-Color -Text 'Ending Service for ', $Name, ' - Time to Execute: ', $TimeEnd -Color White, Green, White, Green -LinesAfter 1
         $Script:Configuration = $null
         #$Final | ConvertTo-Json
         return

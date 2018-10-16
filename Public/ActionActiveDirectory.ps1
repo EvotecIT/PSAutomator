@@ -3,7 +3,7 @@ Function ActionActiveDirectory {
     param (
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
         [string] $Name,
-        [AutomatorActionAD] $Action,
+        [PSAutomator.ActionAD] $Action,
         [Object] $ActionValue
     )
     $Trigger = switch ($Object.Trigger.Trigger) {

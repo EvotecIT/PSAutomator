@@ -3,7 +3,7 @@ function Ignore {
     param(
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
         [string] $Name,
-        [AutomatorIgnore] $IgnoreAction,
+        [PSAutomator.Ignore] $IgnoreAction,
         $IgnoreParameter,
         $IgnoreValue
     )
