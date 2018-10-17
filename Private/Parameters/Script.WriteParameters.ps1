@@ -1,5 +1,5 @@
 # Default value / overwritten if set in config
-$Script:DisplayConsole = @{
+$Script:WriteParameters = @{
     Standard = @{
         ShowTime   = $true
         LogFile    = ""
