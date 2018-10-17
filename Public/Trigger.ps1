@@ -7,11 +7,14 @@ Function Trigger {
         $Configuration
     )
     Begin {
-
+        $WriteInformation = @{
+            Text        = '[+]', ' Running Trigger', ' for ', $Name
+            Color       = [ConsoleColor]::Green, [ConsoleColor]::White, [ConsoleColor]::White, [ConsoleColor]::Green
+            StartSpaces = 4
+        }
+        Write-Color @WriteInformation
     }
     Process {
-        #Write-Color $Script:Configuration.Prettify.CompanyName -Color Red
-        Write-Color -Text 'Running Trigger', ' for ', $Name -Color White, White, Green -StartSpaces 2
         $Object = [ordered] @{}
         $Object.Trigger = @{
             Name    = $Name

@@ -1,4 +1,5 @@
 function New-PSAutomatorConfiguration {
+    [CmdletBinding()]
     param(
         [Object] $Configuration,
         $Path

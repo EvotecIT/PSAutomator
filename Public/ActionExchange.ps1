@@ -12,7 +12,15 @@ Function ActionExchange {
         }
     }
     $CountUsers = Get-ObjectCount -Object $Users
-    Write-Color -Text '[+] ', 'Action ', $Name, ' on ', $CountUsers, ' objects based on trigger ', $Object.Trigger.Trigger, ' with value ', $Object.Trigger.Value -Color Green, White, Green, White, Green, White, Green, White, Green -StartSpaces 6
+
+    $WriteInformation = @{
+        Text        = '[+] ', 'Action ', $Name, ' on ', $CountUsers, ' objects based on trigger ', $Object.Trigger.Trigger, ' with value ', $Object.Trigger.Value
+        Color       = [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen, [ConsoleColor]::White, `
+            [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen
+        StartSpaces = 4
+    }
+    Write-Color @WriteInformation
+
     foreach ($User in $Users) {
         #$Result = switch ( $Action ) {
 

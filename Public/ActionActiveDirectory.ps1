@@ -18,7 +18,15 @@ Function ActionActiveDirectory {
         }
     }
     $CountUsers = Get-ObjectCount -Object $Users
-    Write-Color -Text '[+] ', 'Action ', $Name, ' on ', $CountUsers, ' objects based on trigger ', $Object.Trigger.Trigger, ' with value ', $Object.Trigger.Value -Color DarkGreen, White, DarkGreen, White, DarkGreen, White, DarkGreen, White, DarkGreen -StartSpaces 4
+
+    $WriteInformation = @{
+        Text        = '[+] ', 'Action ', $Name, ' on ', $CountUsers, ' objects based on trigger ', $Object.Trigger.Trigger, ' with value ', $Object.Trigger.Value
+        Color       = [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen, [ConsoleColor]::White, `
+            [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen
+        StartSpaces = 4
+    }
+    Write-Color @WriteInformation
+
     foreach ($User in $Users) {
         $Result = switch ( $Action ) {
             AccountAddGroupsSpecific {

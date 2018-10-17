@@ -8,19 +8,19 @@ function Out-ActionStatus {
     $WriteSuccess = @{
         Text        = '[+] ', 'Execution ', $Name, ' on account ', $User.distinguishedName, ' done.'
         Color       = 'Cyan', 'White', 'Cyan', 'White', 'Cyan', 'White', 'Cyan', 'White', 'Cyan'
-        StartSpaces = 6
+        StartSpaces = 8
     }
     $WriteSkip = @{
         Text        = '[-] ', 'Execution ', $Name, ' on account ', $User.distinguishedName, ' skipped.'
         Color       = 'Yellow', 'White', 'Yellow', 'White', 'Yellow', 'White', 'Yellow', 'White', 'Yellow'
-        StartSpaces = 6
+        StartSpaces = 8
     }
     $WriteStatusSuccess = @{
-        StartSpaces = 10
+        StartSpaces = 12
         Color       = 'Green', 'White', 'Green', 'White', 'Green'
     }
     $WriteStatusFail = @{
-        StartSpaces = 10
+        StartSpaces = 12
         Color       = 'Red', 'White', 'Red', 'White', 'Red'
     }
     if ($CommandOutput) {

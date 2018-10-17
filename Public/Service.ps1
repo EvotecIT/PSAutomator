@@ -1,4 +1,5 @@
 Function Service {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, Position = 0)][string] $Name,
         [string] $Status,
@@ -10,20 +11,30 @@ Function Service {
         $TimeRun = Start-TimeLog
     }
     Process {
-        if ($Status -eq 'Disable') {
-            return
+        if ($Status -eq 'Disable') { return }
+        $WriteInformation = @{
+            Text        = '[i]', ' Running Service', ' for ', $Name
+            Color       = [ConsoleColor]::Green, [ConsoleColor]::White, [ConsoleColor]::Green
+            StartSpaces = 0
         }
-        if (($ConfigurationPath) -and (Test-Path $ConfigurationPath)) {
-            $Script:Configuration = Import-Clixml -Path $ConfigurationPath
-        }
-        Write-Color -Text 'Running Service', ' for ', $Name -Color White, White, Green
+        Write-Color @WriteInformation
+        Get-PSAutomatorConfiguration -ConfigurationPath $ConfigurationPath
+
         $Final = Invoke-Command -ScriptBlock $ServiceData
     }
     End {
         $TimeEnd = $TimeRun | Stop-TimeLog -Option 'Array'
-        Write-Color -Text 'Ending Service for ', $Name, ' - Time to Execute: ', $TimeEnd -Color White, Green, White, Green -LinesAfter 1
+
+        $WriteInformation = @{
+            Text        = '[i]', ' Ending Service for ', $Name, ' - Time to Execute: ', $TimeEnd
+            Color       = [ConsoleColor]::Green, [ConsoleColor]::White, [ConsoleColor]::Green, [ConsoleColor]::Green, [ConsoleColor]::White
+            LinesAfter  = 1
+            StartSpaces = 0
+        }
+        Write-Color @WriteInformation
+
+        # Finish Service
         $Script:Configuration = $null
-        #$Final | ConvertTo-Json
         return
     }
 }
