@@ -1,6 +1,8 @@
 # Default value / overwritten if set in config
-$script:WriteParameters = @{
-    ShowTime   = $true
-    LogFile    = ""
-    TimeFormat = "yyyy-MM-dd HH:mm:ss"
+$Script:DisplayConsole = @{
+    Standard = @{
+        ShowTime   = $true
+        LogFile    = ""
+        TimeFormat = "yyyy-MM-dd HH:mm:ss"
+    }
 }
