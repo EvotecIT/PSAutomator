@@ -1,13 +1,10 @@
 $Configuration = [ordered] @{
     Prettify = [ordered] @{
-        CompanyName        = 'Evotec23'
-        UseBuiltinTemplate = $true
-        CustomTemplatePath = ''
-        Language           = 'en-US'
-        Debug              = @{
+        CompanyName    = 'Evotec'
+        Debug          = @{
             Verbose = $false
         }
-        DisplayConsole     = @{
+        DisplayConsole = @{
             Standard = @{
                 ShowTime   = $true
                 LogFile    = ""
@@ -27,7 +24,7 @@ $Configuration = [ordered] @{
             Configuration = [ordered] @{
                 Use            = $true
                 Authentication = 'Kerberos'
-                SessionName    = 'ExchangeOn-Premises'
+                SessionName    = 'ExchangeLocal'
                 ConnectionURI  = 'http://ex2013x3.ad.evotec.xyz/PowerShell'
                 LeaveOpen      = $true
             }

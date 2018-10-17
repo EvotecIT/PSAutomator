@@ -12,6 +12,7 @@ Function Service {
     }
     Process {
         if ($Status -eq 'Disable') { return }
+
         $WriteInformation = @{
             Text        = '[i]', ' Running Service', ' for ', $Name
             Color       = [ConsoleColor]::Green, [ConsoleColor]::White, [ConsoleColor]::Green
@@ -20,7 +21,8 @@ Function Service {
         Write-Color @WriteInformation
         Get-PSAutomatorConfiguration -ConfigurationPath $ConfigurationPath
 
-        $Final = Invoke-Command -ScriptBlock $ServiceData
+        $Object = Invoke-Command -ScriptBlock $ServiceData
+        $Final = Complete-WorkFlow -Object $Object
     }
     End {
         $TimeEnd = $TimeRun | Stop-TimeLog -Option 'Array'
@@ -35,6 +37,6 @@ Function Service {
 
         # Finish Service
         $Script:Configuration = $null
-        return
+        return #$Final
     }
 }

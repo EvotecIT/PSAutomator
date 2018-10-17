@@ -1,22 +1,28 @@
 Function Trigger {
     [CmdletBinding()]
     param (
+        [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
         [string] $Name,
         [PSAutomator.Trigger] $Trigger,
-        [string] $Value,
-        $Configuration
+        [Object] $Value
     )
     Begin {
-        $WriteInformation = @{
-            Text        = '[+]', ' Running Trigger', ' for ', $Name
-            Color       = [ConsoleColor]::Green, [ConsoleColor]::White, [ConsoleColor]::White, [ConsoleColor]::Green
-            StartSpaces = 4
-        }
-        Write-Color @WriteInformation
+
     }
     Process {
-        $Object = [ordered] @{}
-        $Object.Trigger = @{
+        if ($Object -eq $null) {
+            # if object is null it's the first one
+            $Object = [ordered] @{
+                Triggers       = @()
+                Conditions     = @()
+                Ignores        = @()
+                Actions        = @()
+                ProcessingData = @{
+                    Users = @()
+                }
+            }
+        }
+        $Object.Triggers += @{
             Name    = $Name
             Trigger = $Trigger
             Value   = $Value

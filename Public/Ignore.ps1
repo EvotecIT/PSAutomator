@@ -3,19 +3,22 @@ function Ignore {
     param(
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
         [string] $Name,
-        [PSAutomator.Ignore] $IgnoreAction,
-        $IgnoreParameter,
-        $IgnoreValue
+        [PSAutomator.Ignore] $Ignore,
+        [Object] $Value
     )
-    $Object.Ignore = @{
-        Name            = $Name
-        IgnoreAction    = $IgnoreAction
-        IgnoreParameter = $IgnoreParameter
-        IgnoreValue     = $IgnoreValue
+    Begin {}
+    Process {
+        if ($Object -eq $null) {
+            Write-Warning "Ignore can't be used out of order. Terminating!"
+            Exit
+        }
+        $Object.Ignores += @{
+            Name   = $Name
+            Ignore = $Ignore
+            Value  = $Value
+        }
     }
-
-    #Write-Color -Text 'Trigger: ', $Object.Trigger -Color Yellow
-
-    #Write-Color -Text "Ignoring ", $Object, ' ', $Name -Color White, Red
-    return $Object
+    End {
+        return $Object
+    }
 }

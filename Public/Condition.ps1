@@ -2,10 +2,23 @@ function Condition {
     [CmdletBinding()]
     param(
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
-        [string] $Name
+        [string] $Name,
+        [PSAutomator.Condition] $Condition,
+        [Object] $Value
     )
-    $Object.Condition = @{
-        Name = $Name
+    Begin {}
+    Process {
+        if ($Object -eq $null) {
+            Write-Warning "Condition can't be used out of order. Terminating!"
+            Exit
+        }
+        $Object.Conditions += @{
+            Name      = $Name
+            Condition = $Condition
+            Value     = $Value
+        }
     }
-    return $Object
+    End {
+        return $Object
+    }
 }

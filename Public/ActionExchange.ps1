@@ -4,27 +4,23 @@ Function ActionExchange {
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
         [string] $Name,
         [PSAutomator.ActionExchange] $Action,
-        [Object] $ActionValue
+        [Object] $Value
     )
-    $Trigger = switch ($Object.Trigger.Trigger) {
-        OrganizationalUnit {
-            $Users = Get-ActiveDirectoryUsersByOU -OrganizationalUnit $Object.Trigger.Value
+    Begin {
+
+    }
+    Process {
+        if ($Object -eq $null) {
+            Write-Warning "Action can't be used out of order. Terminating!"
+            Exit
+        }
+        $Object.Actions += @{
+            Name   = $Name
+            Action = $Action
+            Value  = $Value
         }
     }
-    $CountUsers = Get-ObjectCount -Object $Users
-
-    $WriteInformation = @{
-        Text        = '[+] ', 'Action ', $Name, ' on ', $CountUsers, ' objects based on trigger ', $Object.Trigger.Trigger, ' with value ', $Object.Trigger.Value
-        Color       = [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen, [ConsoleColor]::White, `
-            [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen, [ConsoleColor]::White, [ConsoleColor]::DarkGreen
-        StartSpaces = 4
+    End {
+        return $Object
     }
-    Write-Color @WriteInformation
-
-    foreach ($User in $Users) {
-        #$Result = switch ( $Action ) {
-
-        #}
-    }
-    return $Object
 }
