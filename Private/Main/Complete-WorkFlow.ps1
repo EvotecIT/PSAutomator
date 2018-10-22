@@ -31,7 +31,7 @@ Function Complete-WorkFlow {
                         $Object.ProcessingData.Users += Get-WinADUsers -Group $Trigger.Value
                     }
                     OrganizationalUnit {
-                        $Object.ProcessingData.Users += Get-WinADUsers -OrganizationalUnit $Trigger.Value   # Get-ActiveDirectoryUsersByOU -OrganizationalUnit $Trigger.Value
+                        $Object.ProcessingData.Users += Get-WinADUsers -OrganizationalUnit $Trigger.Value
                     }
                 }
             }
