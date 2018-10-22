@@ -24,22 +24,23 @@ Function Trigger {
                 }
             }
         }
-        $Object.Triggers = @{
+        $Trigger += @{
             Name  = $Name
             Value = $Value
             Type  = $PSCmdlet.ParameterSetName
         }
         switch ($PSCmdlet.ParameterSetName) {
             User {
-                $Object.Triggers.Trigger = $User
+                $Trigger.Trigger = $User
             }
             Group {
-                $Object.Triggers.Trigger = $Group
+                $Trigger.Trigger = $Group
             }
             Computer {
-                $Object.Triggers.Trigger = $Computer
+                $Trigger.Trigger = $Computer
             }
         }
+        $Object.Triggers += $Trigger
     }
     End {
         return $Object

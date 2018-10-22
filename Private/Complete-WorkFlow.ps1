@@ -66,63 +66,66 @@ Function Complete-WorkFlow {
             }
             Write-Color @WriteInformation
 
-            foreach ($User in $Object.ProcessingData.Users) {
-                $Result = switch ( $Action.Action ) {
-                    AccountAddGroupsSpecific {
-                        $CommandOutput = Add-ADUserGroups -User $User -Groups $Action.Value -FieldSearch 'Name'
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountDisable {
-                        $CommandOutput = Set-ADUserStatus -User $User -Option Disable
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountEnable {
-                        $CommandOutput = Set-ADUserStatus -User $User -Option Enable
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountHideInGAL {
-                        $CommandOutput = Set-ADUserSettingGAL -User $User -Option Hide
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountShowInGAL {
-                        $CommandOutput = Set-ADUserSettingGAL -User $User -Option Show
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRemoveGroupsAll {
-                        $CommandOutput = Remove-ADUserGroups -User $User -All
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRemoveGroupsSecurity {
-                        $CommandOutput = Remove-ADUserGroups -User $User -GroupCategory Security
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRemoveGroupsDistribution {
-                        $CommandOutput = Remove-ADUserGroups -User $User -GroupCategory Distribution
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRemoveGroupsDomainLocal {
-                        $CommandOutput = Remove-ADUserGroups -User $User -GroupScope DomainLocal
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRemoveGroupsGlobal {
-                        $CommandOutput = Remove-ADUserGroups -User $User -GroupScope Global
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRemoveGroupsUniversal {
-                        $CommandOutput = Remove-ADUserGroups -User $User -GroupScope Universal
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRemoveGroupsSpecific {
-                        $CommandOutput = Remove-ADUserGroups -User $User -Groups $ActionValue
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountRename {
-                        $CommandOutput = Set-ADUserName -User $User -Option $Action.Value.Where -TextToAdd $Action.Value.Text
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
-                    }
-                    AccountSnapshot {
-                        $CommandOutput = Get-ADUserSnapshot -User $User -XmlPath $Action.Value
-                        Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+            if ($Action.Type -eq 'ActiveDirectory') {
+
+                foreach ($User in $Object.ProcessingData.Users) {
+                    $Result = switch ( $Action.Action ) {
+                        AccountAddGroupsSpecific {
+                            $CommandOutput = Add-ADUserGroups -User $User -Groups $Action.Value -FieldSearch 'Name'
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountDisable {
+                            $CommandOutput = Set-ADUserStatus -User $User -Option Disable
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountEnable {
+                            $CommandOutput = Set-ADUserStatus -User $User -Option Enable
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountHideInGAL {
+                            $CommandOutput = Set-ADUserSettingGAL -User $User -Option Hide
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountShowInGAL {
+                            $CommandOutput = Set-ADUserSettingGAL -User $User -Option Show
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRemoveGroupsAll {
+                            $CommandOutput = Remove-ADUserGroups -User $User -All
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRemoveGroupsSecurity {
+                            $CommandOutput = Remove-ADUserGroups -User $User -GroupCategory Security
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRemoveGroupsDistribution {
+                            $CommandOutput = Remove-ADUserGroups -User $User -GroupCategory Distribution
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRemoveGroupsDomainLocal {
+                            $CommandOutput = Remove-ADUserGroups -User $User -GroupScope DomainLocal
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRemoveGroupsGlobal {
+                            $CommandOutput = Remove-ADUserGroups -User $User -GroupScope Global
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRemoveGroupsUniversal {
+                            $CommandOutput = Remove-ADUserGroups -User $User -GroupScope Universal
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRemoveGroupsSpecific {
+                            $CommandOutput = Remove-ADUserGroups -User $User -Groups $ActionValue
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountRename {
+                            $CommandOutput = Set-ADUserName -User $User -Option $Action.Value.Where -TextToAdd $Action.Value.Text
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
+                        AccountSnapshot {
+                            $CommandOutput = Get-ADUserSnapshot -User $User -XmlPath $Action.Value
+                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                        }
                     }
                 }
             }
