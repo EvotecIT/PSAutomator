@@ -4,22 +4,23 @@ $Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction Silen
 $Assembly = @( Get-ChildItem -Path $PSScriptRoot\Lib\*.dll -ErrorAction SilentlyContinue -Recurse )
 
 #Dot source the files
-Foreach ($import in @($Public + $Private)) {
+Foreach ($Import in @($Public + $Private)) {
     Try {
-        . $import.fullname
+        . $Import.fullname
     } Catch {
-        Write-Error -Message "Failed to import function $($import.fullname): $_"
+        Write-Error -Message "Failed to Import function $($Import.fullname): $_"
     }
 }
-Foreach ($import in @($Assembly)) {
+Foreach ($Import in @($Assembly)) {
     Try {
-        Add-Type -Path $import.fullname
+        Add-Type -Path $Import.fullname
     } Catch {
-        Write-Error -Message "Failed to import DLL $($import.fullname): $_"
+        Write-Error -Message "Failed to Import DLL $($Import.fullname): $_"
     }
 }
 
-Export-ModuleMember -Function '*'
+Export-ModuleMember -Function 'Action', 'Condition', 'Ignore', 'Service', 'Trigger'
+#Export-ModuleMember -Function '*'
 
 [string] $ManifestFile = '{0}.psd1' -f (Get-Item $PSCommandPath).BaseName;
 $ManifestPathAndFile = Join-Path -Path $PSScriptRoot -ChildPath $ManifestFile;

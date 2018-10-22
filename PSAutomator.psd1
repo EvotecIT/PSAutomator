@@ -4,7 +4,7 @@
     RootModule        = 'PSAutomator.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.1'
+    ModuleVersion     = '0.0.2'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -33,8 +33,8 @@
     ScriptsToProcess  = @('Enums\ActionAD.ps1', 'Enums\ActionExchange.ps1', 'Enums\ActionExchangeOnline.ps1', 'Enums\Condition.ps1', 'Enums\Ignore.ps1', 'Enums\IgnoreType.ps1', 'Enums\TriggerComputer.ps1', 'Enums\TriggerGroup.ps1', 'Enums\TriggerUser.ps1')
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('*')
-
+    FunctionsToExport = @('Action', 'Condition', 'Ignore', 'Service', 'Trigger')
+    #FunctionsToExport = '*'
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
     PrivateData       = @{
 
