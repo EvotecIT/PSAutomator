@@ -21,17 +21,17 @@ Function Complete-WorkFlow {
             Write-Color @WriteInformation
             if ($Trigger.Type -eq 'User') {
                 switch ($Trigger.Trigger) {
-                    OrganizationalUnit {
-                        $Object.ProcessingData.Users += Get-ActiveDirectoryUsersByOU -OrganizationalUnit $Trigger.Value
-                    }
-                    GroupMembership {
-                        $Group = Get-ADGroup -Identity $Trigger.Value
-                        if ($Group) {
-                            $Object.ProcessingData.Users += Get-ADGroupMember -Identity $Group
-                        }
+                    Always {
+                        $Object.ProcessingData.Users += Get-WinADUsers -Filter '*'
                     }
                     Filter {
-                        $Object.ProcessingData.users += Get-WinADUsers -Filter $Trigger.Value
+                        $Object.ProcessingData.Users += Get-WinADUsers -Filter $Trigger.Value
+                    }
+                    GroupMembership {
+                        $Object.ProcessingData.Users += Get-WinADUsers -Group $Trigger.Value
+                    }
+                    OrganizationalUnit {
+                        $Object.ProcessingData.Users += Get-WinADUsers -OrganizationalUnit $Trigger.Value   # Get-ActiveDirectoryUsersByOU -OrganizationalUnit $Trigger.Value
                     }
                 }
             }
