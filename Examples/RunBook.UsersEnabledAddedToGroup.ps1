@@ -7,5 +7,5 @@ Service -Name 'Active Directory Offboarding' -ConfigurationPath 'C:\Support\GitH
         Condition -Name 'No conditions' |
         Ignore -Name 'Ignore Windows Email Address if Empty or null' -Ignore MatchingEmptyOrNull -Value EmailAddress |
         Action -Name 'Enable AD Account' -ActiveDirectory AccountEnable |
-        Action -Name 'Add Domain Admins' -ActiveDirectory AccountAddGroupsSpecific -Value 'Users Disabled'
+        Action -Name 'Add user to Disabled Users' -ActiveDirectory AccountAddGroupsSpecific -Value 'Disabled Users'
 }
