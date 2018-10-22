@@ -1,10 +1,12 @@
 Function Trigger {
     [CmdletBinding()]
     param (
-        [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
-        [string] $Name,
-        [PSAutomator.Trigger] $Trigger,
-        [Object] $Value
+        [Parameter(Mandatory = $false, ValueFromPipeline = $true, Position = 0)] $Object,
+        [parameter(Mandatory = $false)] [string] $Name,
+        [parameter(Mandatory = $false, ParameterSetName = "User")][PSAutomator.TriggerUser] $User,
+        [parameter(Mandatory = $false, ParameterSetName = "Group")][PSAutomator.TriggerGroup] $Group,
+        [parameter(Mandatory = $false, ParameterSetName = "Computer")][PSAutomator.TriggerComputer] $Computer,
+        [parameter(Mandatory = $false)] [Object] $Value
     )
     Begin {
 
@@ -22,10 +24,21 @@ Function Trigger {
                 }
             }
         }
-        $Object.Triggers += @{
-            Name    = $Name
-            Trigger = $Trigger
-            Value   = $Value
+        $Object.Triggers = @{
+            Name  = $Name
+            Value = $Value
+            Type  = $PSCmdlet.ParameterSetName
+        }
+        switch ($PSCmdlet.ParameterSetName) {
+            User {
+                $Object.Triggers.Trigger = $User
+            }
+            Group {
+                $Object.Triggers.Trigger = $Group
+            }
+            Computer {
+                $Object.Triggers.Trigger = $Computer
+            }
         }
     }
     End {

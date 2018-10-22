@@ -4,10 +4,11 @@ Add-Type -TypeDefinition @"
     namespace PSAutomator
     {
         [Flags]
-        public enum Trigger {
+        public enum TriggerComputer {
             Always,
             OrganizationalUnit,
-            GroupMembership
+            GroupMembership,
+            Filter
         }
     }
 "@

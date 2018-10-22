@@ -13,7 +13,7 @@ function Ignore {
             Exit
         }
         $Object.Ignores += @{
-            Name   = $Name
+            Name   = if ($Name -eq '') { 'No name given' } else { $Name }
             Ignore = $Ignore
             Value  = $Value
         }
