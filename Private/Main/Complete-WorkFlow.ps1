@@ -115,7 +115,7 @@ Function Complete-WorkFlow {
                             Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
                         }
                         AccountRemoveGroupsSpecific {
-                            $CommandOutput = Remove-ADUserGroups -User $User -Groups $ActionValue
+                            $CommandOutput = Remove-ADUserGroups -User $User -Groups $Action.Value
                             Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
                         }
                         AccountRename {
