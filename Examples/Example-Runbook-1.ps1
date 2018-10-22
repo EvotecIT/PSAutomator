@@ -32,7 +32,7 @@ Service -Name 'Active Directory Offboarding' -ConfigurationPath 'C:\Support\GitH
     Trigger -Name 'OU Offboarded Users' -User Filter -Value @{ Filter = "UserPrincipalName -eq 'przemyslaw.klys@ad.evotec.xyz'"; SearchBase = 'OU=Users,OU=Production,DC=ad,DC=evotec,DC=xyz' }  |
         Condition -Name 'No conditions' |
         Ignore -Name 'Ignore Windows Email Address if Empty or null' -Ignore MatchingEmptyOrNull -Value EmailAddress |
-        ActionActiveDirectory -Name 'Make User Snapshot' -Action AccountSnapshot -Value 'C:\Users\pklys\Desktop\MyExpor'
+        Action -Name 'Make User Snapshot' -ActiveDirectory AccountSnapshot -Value 'C:\Users\pklys\Desktop\MyExpor'
 }
 
 
