@@ -119,8 +119,13 @@ Function Complete-WorkFlow {
                             Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
                         }
                         AccountRename {
-                            $CommandOutput = Set-ADUserName -User $User -Option $Action.Value.Where -TextToAdd $Action.Value.Text
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                            if ($Action.Value.Action -eq 'AddText') {
+                                $CommandOutput = Set-ADUserName -User $User -Option $Action.Value.Where -TextToAdd $Action.Value.Text
+                                Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                            } elseif ($Action.Value.Action -eq 'RemoveText') {
+                                $CommandOutput = Set-ADUserName -User $User -TextToRemove $Action.Value.Text -Fields $Action.Value.Fields
+                                Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name
+                            }
                         }
                         AccountSnapshot {
                             $CommandOutput = Get-ADUserSnapshot -User $User -XmlPath $Action.Value

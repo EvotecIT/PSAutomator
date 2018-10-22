@@ -44,7 +44,7 @@ $Script:UserProperties = 'Name', 'UserPrincipalName', 'SamAccountName', 'Enabled
     'Surname', 'Manager', "AccountExpirationDate", "AccountLockoutTime", "AllowReversiblePasswordEncryption", `
     "BadLogonCount", "CannotChangePassword", "CanonicalName", "Description", "DistinguishedName", "EmployeeID", `
     "EmployeeNumber", "LastBadPasswordAttempt", "LastLogonDate", "Created", "Modified", "PrimaryGroup", "MemberOf", `
-    'msDS-UserPasswordExpiryTimeComputed'
+    'msDS-UserPasswordExpiryTimeComputed','msExchHideFromAddressLists'
 
 
 
