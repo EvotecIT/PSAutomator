@@ -6,11 +6,39 @@ Overview of this module is available at: https://evotec.xyz/hub/scripts/psautoma
 
 This PowerShell Module is new approach to onboarding, offboarding and business as usual processes running in companies infrastructure. Usually each company has different rules, different approaches on how processes should look like and this module takes an easy approach that's similar to what you can find in services like **IFTTT** or **Microsoft Flow**. Those services work in known schema such as Services, Triggers, Ingredients and Applets. For this PowerShell Module I've taken similar approach which is described below.
 
-- [x] **Action** – are essentially Tasks that are about to be executed. This can be adding a user to a group, disabling user etc.
-- [x] **Trigger** – but before an Action can be executed it needs a **Trigger**. **Trigger** can be membership in Group, Organizational Unit etc.
+While it's encouraged to keep correct order Service, Trigger, Ignore, Condition, Action it actually only requires Service, Trigger to be in correct order.
+
+- [x] **Service** – is kind of a wrapper for other blocks above. It has also ability to load configuration from file. Currently loading file doesn't do anything.
+- [x] **Trigger** – is first block in Service. Before an Action can be executed it needs a **Trigger**. **Trigger** can be membership in Group, Organizational Unit etc
+    - [ ] User Based Triggers
+        - [ ] Always,
+        - [x] OrganizationalUnit,
+        - [x] GroupMembership,
+        - [ ] Filter
 - [x] **Ignore** – But Trigger can also have things that need to be ignored. For example lack of email address field.
+    - [ ] User Based Ignore
+        - [x] MatchingEmptyOrNull,
+        - [ ] MatchingObjects,
+        - [ ] MatchingFields
 - [x] **Condition** – It can also be conditioned for example Last User Modification Date should be more then 30 days.
-- [x] **Service** – is kind of a wrapper for all above. It has also ability to load configuration from file
+        - [ ] RequireGroupMembership,
+        - [ ] RequireLastModified
+- [x] **Action** – are essentially Tasks that are about to be executed. This can be adding a user to a group, disabling user etc.
+    - [ ] User Based Actions
+        - [x] AccountAddGroupsSpecific
+        - [x] AccountDisable
+        - [x] AccountEnable
+        - [x] AccountHideInGAL
+        - [x] AccountShowInGAL
+        - [x] AccountRemoveGroupsAll
+        - [x] AccountRemoveGroupsSecurity
+        - [x] AccountRemoveGroupsDistribution
+        - [x] AccountRemoveGroupsSpecific
+        - [x] AccountRemoveGroupsDomainLocal
+        - [x] AccountRemoveGroupsGlobal
+        - [x] AccountRemoveGroupsUniversal
+        - [ ] AccountRename,
+        - [x] AccountSnapshot
 
 **This is proof-of-concept. Heavy work in progres... Please take your time and leave feedback!**
 
