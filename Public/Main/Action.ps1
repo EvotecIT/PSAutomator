@@ -5,7 +5,8 @@ Function Action {
         [parameter(Mandatory = $false)] [string] $Name,
         [parameter(Mandatory = $false, ParameterSetName = "ActiveDirectory")][PSAutomator.ActionAD] $ActiveDirectory,
         [parameter(Mandatory = $false, ParameterSetName = "Exchange")][PSAutomator.ActionExchange] $Exchange,
-        [parameter(Mandatory = $false)] [Object] $Value
+        [parameter(Mandatory = $false)] [Object] $Value,
+        [parameter(Mandatory = $false)] [switch] $WhatIf
     )
     Begin {}
     Process {
@@ -17,6 +18,7 @@ Function Action {
             Name  = $Name
             Value = $Value
             Type  = $PSCmdlet.ParameterSetName
+            WhatIf = $WhatIf
         }
         switch ($PSCmdlet.ParameterSetName) {
             ActiveDirectory {

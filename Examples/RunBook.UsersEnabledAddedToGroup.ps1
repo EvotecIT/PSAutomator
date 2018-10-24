@@ -6,6 +6,6 @@ Service -Name 'Active Directory Offboarding' -ConfigurationPath 'C:\Support\GitH
     Trigger -Name 'Reenabling my users for testing purposes' -User OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz' |
         Condition -Name 'No conditions' |
         Ignore -Name 'Ignore Windows Email Address if Empty or null' -Ignore MatchingEmptyOrNull -Value EmailAddress |
-        Action -Name 'Enable AD Account' -ActiveDirectory AccountEnable |
-        Action -Name 'Add user to Disabled Users' -ActiveDirectory AccountAddGroupsSpecific -Value 'Disabled Users'
+        Action -Name 'Enable AD Account' -ActiveDirectory AccountEnable -WhatIf |
+        Action -Name 'Add user to Disabled Users' -ActiveDirectory AccountAddGroupsSpecific -Value 'Disabled Users' -WhatIf
 }
