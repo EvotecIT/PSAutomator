@@ -21,6 +21,7 @@ While it's encouraged to keep correct order Service, Trigger, Ignore, Condition,
         - [ ] MatchingObjects,
         - [ ] MatchingFields
 - [x] **Condition** – It can also be conditioned for example Last User Modification Date should be more then 30 days.
+    - [ ] User Based Conditions
         - [ ] RequireGroupMembership,
         - [ ] RequireLastModified
 - [x] **Action** – are essentially Tasks that are about to be executed. This can be adding a user to a group, disabling user etc.
