@@ -4,7 +4,7 @@
     RootModule        = 'PSAutomator.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.2'
+    ModuleVersion     = '0.0.3'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -22,7 +22,7 @@
     Copyright         = 'Evotec (c) 2018. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'Simple project'
+    Description       = "PowerShell Module is new approach to onboarding, offboarding and business as usual processes running in companies infrastructure. Usually each company has different rules, different approaches on how processes should look like and this module takes an easy approach that's similar to what you can find in services like IFTTT or Microsoft Flow"
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.1'
@@ -50,7 +50,7 @@
             ProjectUri = 'https://github.com/EvotecIT/PSAutomator'
 
             # A URL to an icon representing this module.
-            # IconUri = ''
+            IconUri = 'https://evotec.xyz/wp-content/uploads/2018/10/PSAutomator.png'
 
             # ReleaseNotes of this module
             # ReleaseNotes = ''
