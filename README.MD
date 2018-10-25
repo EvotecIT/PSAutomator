@@ -24,7 +24,7 @@ While it's encouraged to keep correct order Service, Trigger, Ignore, Condition,
     - [ ] User Based Conditions
         - [ ] RequireGroupMembership,
         - [ ] RequireLastModified
-- [x] **Action** – are essentially Tasks that are about to be executed. This can be adding a user to a group, disabling user etc.
+- [x] **Action** – are essentially Tasks that are about to be executed. This can be adding a user to a group, disabling user etc. This is also final step to close Service.
     - [ ] User Based Actions
         - [x] AccountAddGroupsSpecific
         - [x] AccountDisable
@@ -40,6 +40,12 @@ While it's encouraged to keep correct order Service, Trigger, Ignore, Condition,
         - [x] AccountRemoveGroupsUniversal
         - [ ] AccountRename,
         - [x] AccountSnapshot
+
+Keep in mind that following is true for Service:
+- [x] Can hold only 1 trigger
+- [x] Can have multiple Ignore blocks
+- [x] Can have multiple Condition blocks
+- [x] Can have multiple Action blocks
 
 **This is proof-of-concept. Heavy work in progres... Please take your time and leave feedback!**
 
