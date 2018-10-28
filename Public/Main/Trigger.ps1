@@ -12,7 +12,7 @@ Function Trigger {
 
     }
     Process {
-        if ($Object -eq $null) {
+        if ($null -eq $Object) {
             # if object is null it's the first one
             $Object = [ordered] @{
                 Triggers       = @()

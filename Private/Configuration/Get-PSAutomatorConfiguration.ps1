@@ -5,5 +5,7 @@ function Get-PSAutomatorConfiguration {
     )
     if (($ConfigurationPath) -and (Test-Path $ConfigurationPath)) {
         $Script:Configuration = Import-Clixml -Path $ConfigurationPath
+    } else {
+        $Script:Configuration = $null
     }
 }

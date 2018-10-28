@@ -11,14 +11,11 @@ Function Complete-WorkFlow {
             Write-Warning "Complete-WorkFlow can't be used out of order. Terminating!"
             Exit
         }
+        Start-Configuration -Configuration $Script:Configuration
 
         foreach ($Trigger in $Object.Triggers) {
-            $WriteInformation = @{
-                Text        = '[+]', ' Running Trigger', ' for ', $Trigger.Name
-                Color       = [ConsoleColor]::Green, [ConsoleColor]::White, [ConsoleColor]::White, [ConsoleColor]::Green
-                StartSpaces = 4
-            }
-            Write-Color @WriteInformation
+            Out-TriggerStatus -Trigger $Trigger
+
             if ($Trigger.Type -eq 'User') {
                 switch ($Trigger.Trigger) {
                     Always {

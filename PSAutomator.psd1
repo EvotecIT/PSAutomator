@@ -30,10 +30,10 @@
     RequiredModules   = @('PSSharedGoods', 'PSWriteColor')
 
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
-    ScriptsToProcess  = @('Enums\ActionAD.ps1', 'Enums\ActionExchange.ps1', 'Enums\ActionExchangeOnline.ps1', 'Enums\Condition.ps1', 'Enums\Ignore.ps1', 'Enums\IgnoreType.ps1', 'Enums\TriggerComputer.ps1', 'Enums\TriggerGroup.ps1', 'Enums\TriggerUser.ps1')
+    ScriptsToProcess  = @('Enums\ActionAD.ps1', 'Enums\ActionExchange.ps1', 'Enums\ActionExchangeOnline.ps1', 'Enums\Condition.ps1', 'Enums\Connect.ps1', 'Enums\Ignore.ps1', 'Enums\IgnoreType.ps1', 'Enums\TriggerComputer.ps1', 'Enums\TriggerGroup.ps1', 'Enums\TriggerUser.ps1')
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Action', 'Condition', 'Ignore', 'Service', 'Trigger')
+    FunctionsToExport = @('Action', 'Connect', 'Condition', 'Ignore', 'Service', 'Trigger', 'New-PSAutomatorConfiguration')
     #FunctionsToExport = '*'
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
     PrivateData       = @{
@@ -50,7 +50,7 @@
             ProjectUri = 'https://github.com/EvotecIT/PSAutomator'
 
             # A URL to an icon representing this module.
-            IconUri = 'https://evotec.xyz/wp-content/uploads/2018/10/PSAutomator.png'
+            IconUri    = 'https://evotec.xyz/wp-content/uploads/2018/10/PSAutomator.png'
 
             # ReleaseNotes of this module
             # ReleaseNotes = ''

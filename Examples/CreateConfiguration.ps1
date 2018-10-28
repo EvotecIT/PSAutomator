@@ -13,23 +13,36 @@ $Configuration = [ordered] @{
         }
     }
     Services = [ordered] @{
-        ActiveDirectory = [ordered] @{
-
-        }
-        Exchange        = [ordered] @{
-            Credentials   = [ordered] @{
-                UserName = '' # if Kerberos leave empty (domain joined computers usually)
-                Password = '' # same as above
+        OnPremises = [ordered] @{
+            ActiveDirectory = [ordered] @{
+                Credentials = [ordered] @{
+                    Username         = ''
+                    Password         = ''
+                    PasswordAsSecure = $true
+                    PasswordFromFile = $true
+                }
+                Use         = $true
+                Prefix      = ''
+                SessionName = 'ActiveDirectory'
             }
-            Configuration = [ordered] @{
+            Exchange        = [ordered] @{
+                Credentials    = [ordered] @{
+                    UserName         = '' # if Kerberos leave empty (domain joined computers usually)
+                    Password         = '' # same as above
+                    PasswordAsSecure = $true
+                    PasswordFromFile = $true
+                }
                 Use            = $true
-                Authentication = 'Kerberos'
+                Prefix         = ''
+
                 SessionName    = 'ExchangeLocal'
+                Authentication = 'Kerberos'
                 ConnectionURI  = 'http://ex2013x3.ad.evotec.xyz/PowerShell'
                 LeaveOpen      = $true
+
             }
         }
-        Office365       = [ordered] @{
+        Office365  = [ordered] @{
             Credentials    = [ordered] @{
                 Username         = 'przemyslaw.klys@evotec.pl'
                 Password         = 'C:\Support\GitHub\PSWinDocumentation\Ignore\MySecurePassword.txt'
@@ -37,17 +50,17 @@ $Configuration = [ordered] @{
                 PasswordFromFile = $true
             }
             Azure          = [ordered] @{
-                Use         = $true
+                Use         = $false
                 Prefix      = ''
                 SessionName = 'O365Azure' # MSOL
             }
             AzureAD        = [ordered] @{
-                Use         = $true
+                Use         = $false
                 SessionName = 'O365AzureAD' # Azure
                 Prefix      = ''
             }
             ExchangeOnline = [ordered] @{
-                Use            = $true
+                Use            = $false
                 Authentication = 'Basic'
                 ConnectionURI  = 'https://outlook.office365.com/powershell-liveid/'
                 Prefix         = 'O365'

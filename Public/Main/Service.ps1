@@ -12,13 +12,7 @@ Function Service {
     }
     Process {
         if ($Status -eq 'Disable') { return }
-
-        $WriteInformation = @{
-            Text        = '[i]', ' Running Service', ' for ', $Name
-            Color       = [ConsoleColor]::Green, [ConsoleColor]::White, [ConsoleColor]::Green
-            StartSpaces = 0
-        }
-        Write-Color @WriteInformation
+        Out-ServiceStatus -Name $Name
         Get-PSAutomatorConfiguration -ConfigurationPath $ConfigurationPath
 
         $Object = Invoke-Command -ScriptBlock $ServiceData
