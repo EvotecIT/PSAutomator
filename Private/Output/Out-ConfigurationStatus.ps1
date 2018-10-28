@@ -1,7 +1,8 @@
 function Out-ConfigurationStatus {
     [CmdletBinding()]
     param(
-        [parameter(Mandatory = $false)][Array] $CommandOutput
+        [parameter(Mandatory = $false)][Array] $CommandOutput,
+        [string] $Option = 'Start'
     )
 
     $WriteStatusSuccess = @{
@@ -12,13 +13,9 @@ function Out-ConfigurationStatus {
         StartSpaces = 4
         Color       = 'Red', 'White', 'Red', 'White', 'Red', 'White', 'Red'
     }
-    if ($CommandOutput) {
-        foreach ($Output in $CommandOutput) {
-            if ($Output.Status) {
-                Write-Color @WriteStatusSuccess -Text '[+] ', 'Running ', 'Connection', ' for ', $Output.Output, ' Extended information: ', $Output.Extended
-            } else {
-                Write-Color @WriteStatusFail -Text '[-] ', 'Running ', 'Connection', ' for ', $Output.Output, ' Extended information: ', $Output.Extended
-            }
-        }
+    if ($Option -eq 'Start') {
+        Write-Color @WriteStatusSuccess -Text '[+] ', 'Running ', 'Configuration'
+    } else {
+        Write-Color @WriteStatusFail -Text '[-] ', 'Ending ', 'Configuration'
     }
 }
