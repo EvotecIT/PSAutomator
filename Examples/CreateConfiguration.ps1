@@ -23,7 +23,7 @@ $Configuration = [ordered] @{
                 }
                 Use         = $true
                 Prefix      = ''
-                SessionName = 'ActiveDirectory'
+                SessionName = 'Active Directory'
             }
             Exchange        = [ordered] @{
                 Credentials    = [ordered] @{
@@ -35,7 +35,7 @@ $Configuration = [ordered] @{
                 Use            = $true
                 Prefix         = ''
 
-                SessionName    = 'ExchangeLocal'
+                SessionName    = 'Exchange On-Premises'
                 Authentication = 'Kerberos'
                 ConnectionURI  = 'http://ex2013x3.ad.evotec.xyz/PowerShell'
                 LeaveOpen      = $true
@@ -45,26 +45,26 @@ $Configuration = [ordered] @{
         Office365  = [ordered] @{
             Credentials    = [ordered] @{
                 Username         = 'przemyslaw.klys@evotec.pl'
-                Password         = 'C:\Support\GitHub\PSWinDocumentation\Ignore\MySecurePassword.txt'
+                Password         = 'C:\Support\Important\Password-O365-Evotec.txt'
                 PasswordAsSecure = $true
                 PasswordFromFile = $true
             }
             Azure          = [ordered] @{
-                Use         = $false
+                Use         = $true
                 Prefix      = ''
-                SessionName = 'O365Azure' # MSOL
+                SessionName = 'O365 Azure MSOL' # MSOL
             }
             AzureAD        = [ordered] @{
-                Use         = $false
-                SessionName = 'O365AzureAD' # Azure
+                Use         = $true
+                SessionName = 'O365 Azure AD' # Azure
                 Prefix      = ''
             }
             ExchangeOnline = [ordered] @{
-                Use            = $false
+                Use            = $true
                 Authentication = 'Basic'
                 ConnectionURI  = 'https://outlook.office365.com/powershell-liveid/'
                 Prefix         = 'O365'
-                SessionName    = 'O365Exchange'
+                SessionName    = 'O365 Exchange'
             }
         }
     }
