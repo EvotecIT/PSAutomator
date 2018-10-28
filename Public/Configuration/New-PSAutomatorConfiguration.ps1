@@ -5,6 +5,6 @@ function New-PSAutomatorConfiguration {
         $Path
     )
     if ($Configuration) {
-        $Configuration | Export-Clixml -Path $Path
+        $Configuration | Export-Clixml -Path $Path -Encoding UTF8
     }
 }
