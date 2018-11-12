@@ -32,7 +32,7 @@ $Configuration = [ordered] @{
                     PasswordAsSecure = $true
                     PasswordFromFile = $true
                 }
-                Use            = $true
+                Use            = $false
                 Prefix         = ''
 
                 SessionName    = 'Exchange On-Premises'
@@ -51,7 +51,6 @@ $Configuration = [ordered] @{
             }
             Azure          = [ordered] @{
                 Use         = $true
-                Prefix      = ''
                 SessionName = 'O365 Azure MSOL' # MSOL
             }
             AzureAD        = [ordered] @{
@@ -65,6 +64,11 @@ $Configuration = [ordered] @{
                 ConnectionURI  = 'https://outlook.office365.com/powershell-liveid/'
                 Prefix         = 'O365'
                 SessionName    = 'O365 Exchange'
+            }
+            Teams = [ordered] @{
+                Use         = $true
+                Prefix      = ''
+                SessionName = 'O365 Teams'
             }
         }
     }

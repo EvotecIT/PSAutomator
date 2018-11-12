@@ -4,7 +4,7 @@ Add-Type -TypeDefinition @"
     namespace PSAutomator
     {
         [Flags]
-        public enum TriggerUser {
+        public enum TriggerUserAD {
             Always,
             OrganizationalUnit,
             GroupMembership,

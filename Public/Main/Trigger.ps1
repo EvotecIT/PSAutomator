@@ -3,7 +3,8 @@ Function Trigger {
     param (
         [Parameter(Mandatory = $false, ValueFromPipeline = $true, Position = 0)] $Object,
         [parameter(Mandatory = $false)] [string] $Name,
-        [parameter(Mandatory = $false, ParameterSetName = "User")][PSAutomator.TriggerUser] $User,
+        [parameter(Mandatory = $false, ParameterSetName = "User")][PSAutomator.TriggerUserAD] $User,
+        [parameter(Mandatory = $false, ParameterSetName = "UserAzureAD")][PSAutomator.TriggerUserAD] $UserAzureAD,
         [parameter(Mandatory = $false, ParameterSetName = "Group")][PSAutomator.TriggerGroup] $Group,
         [parameter(Mandatory = $false, ParameterSetName = "Computer")][PSAutomator.TriggerComputer] $Computer,
         [parameter(Mandatory = $false)] [Object] $Value
@@ -30,8 +31,11 @@ Function Trigger {
             Type  = $PSCmdlet.ParameterSetName
         }
         switch ($PSCmdlet.ParameterSetName) {
-            User {
+            UserAD {
                 $Trigger.Trigger = $User
+            }
+            UserAzureAD {
+                $Trigger.Trigger = $UserAzureAD
             }
             Group {
                 $Trigger.Trigger = $Group
@@ -39,6 +43,7 @@ Function Trigger {
             Computer {
                 $Trigger.Trigger = $Computer
             }
+
         }
         $Object.Triggers += $Trigger
     }

@@ -30,7 +30,20 @@
     RequiredModules   = @('PSSharedGoods', 'PSWriteColor')
 
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
-    ScriptsToProcess  = @('Enums\ActionAD.ps1', 'Enums\ActionExchange.ps1', 'Enums\ActionExchangeOnline.ps1', 'Enums\Condition.ps1', 'Enums\Connect.ps1', 'Enums\Ignore.ps1', 'Enums\IgnoreType.ps1', 'Enums\TriggerComputer.ps1', 'Enums\TriggerGroup.ps1', 'Enums\TriggerUser.ps1')
+    ScriptsToProcess  = @(
+        'Enums\ActionAD.ps1',
+        'Enums\ActionAzureAD.ps1',
+        'Enums\ActionExchange.ps1',
+        'Enums\ActionExchangeOnline.ps1',
+        'Enums\Condition.ps1',
+        'Enums\Connect.ps1',
+        'Enums\Ignore.ps1',
+        'Enums\IgnoreType.ps1',
+        'Enums\TriggerComputer.ps1',
+        'Enums\TriggerGroup.ps1',
+        'Enums\TriggerUserAD.ps1',
+        'Enums\TriggerUserAzureAD.ps1'
+    )
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @('Action', 'Connect', 'Condition', 'Ignore', 'Service', 'Trigger', 'New-PSAutomatorConfiguration')

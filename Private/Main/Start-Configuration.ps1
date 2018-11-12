@@ -33,5 +33,11 @@ function Start-Configuration {
             -Service $Configuration.Services.Office365.ExchangeOnline -Verbose:$false -Output
         Out-ConnectionStatus -CommandOutput $CommandOutput
     }
+    if ($Configuration.Services.Office365.Teams.Use) {
+        $CommandOutput = Connect-WinService -Type 'MicrosoftTeams' `
+            -Credentials $Configuration.Services.Office365.Credentials `
+            -Service $Configuration.Services.Office365.Teams -Verbose:$false -Output
+        Out-ConnectionStatus -CommandOutput $CommandOutput
+    }
     Out-ConfigurationStatus -Option 'End'
 }
