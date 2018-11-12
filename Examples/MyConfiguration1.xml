@@ -225,7 +225,7 @@
                       <DCT>
                         <En>
                           <S N="Key">Use</S>
-                          <B N="Value">true</B>
+                          <B N="Value">false</B>
                         </En>
                         <En>
                           <S N="Key">SessionName</S>
@@ -245,7 +245,7 @@
                       <DCT>
                         <En>
                           <S N="Key">Use</S>
-                          <B N="Value">true</B>
+                          <B N="Value">false</B>
                         </En>
                         <En>
                           <S N="Key">Authentication</S>
@@ -273,7 +273,7 @@
                       <DCT>
                         <En>
                           <S N="Key">Use</S>
-                          <B N="Value">true</B>
+                          <B N="Value">false</B>
                         </En>
                         <En>
                           <S N="Key">Prefix</S>

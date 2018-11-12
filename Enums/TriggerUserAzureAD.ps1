@@ -4,11 +4,27 @@ Add-Type -TypeDefinition @"
     namespace PSAutomator
     {
         [Flags]
-        public enum TriggerUserAD {
-            Always,
-            OrganizationalUnit,
-            GroupMembership,
-            Filter
+        public enum TriggerUserAzureAD {
+            All,
+
+            ByFields,
+            //ByCountry,
+            //ByCity,
+            //ByDepartment,
+            //ByState,
+            //ByTitle,
+            //ByUsageLocation,
+
+            Deleted,
+            Domain,
+
+            //HasErrors,
+
+            Unlicensed,
+            UserPrincipalName,
+
+            Search,
+            Synchronized
         }
     }
 "@

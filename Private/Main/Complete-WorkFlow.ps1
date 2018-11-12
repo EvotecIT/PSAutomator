@@ -7,7 +7,7 @@ Function Complete-WorkFlow {
 
     }
     Process {
-        if ($Object -eq $null) {
+        if ($null -eq $Object) {
             Write-Warning "Complete-WorkFlow can't be used out of order. Terminating!"
             Exit
         }
@@ -32,6 +32,34 @@ Function Complete-WorkFlow {
                     }
                 }
             }
+            if ($Trigger.Type -eq 'UserAzureAD') {
+                switch ($Trigger.Trigger) {
+                    All {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -All
+                    }
+                    ByFields {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -Trigger $Trigger.Value
+                    }
+                    Deleted {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -ReturnDeletedUsers
+                    }
+                    Domain {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -Trigger $Trigger.Value
+                    }
+                    Synchronized {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -Synchronized
+                    }
+                    Unlicensed {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -ReturnUnlicensedUsers
+                    }
+                    UserPrincipalName {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -UserPrincipalName $Trigger.Value
+                    }
+                    Search {
+                        $Object.ProcessingData.Users += Get-WinAzureADUsers -Trigger $Trigger.Value
+                    }
+                }
+            }
         }
 
         foreach ($Ignore in $Object.Ignores) {
@@ -44,7 +72,7 @@ Function Complete-WorkFlow {
             switch ($Ignore.Ignore) {
                 MatchingEmptyOrNull {
                     $Field = "$($Ignore.Value)"
-                    $Object.ProcessingData.Users = $Object.ProcessingData.Users | Where { $_.$Field -ne $null -and $_.$Field -ne '' }
+                    $Object.ProcessingData.Users = $Object.ProcessingData.Users | Where-Object { $null -ne $_.$Field -and $_.$Field -ne '' }
                 }
             }
 
@@ -68,72 +96,10 @@ Function Complete-WorkFlow {
             Write-Color @WriteInformation
 
             if ($Action.Type -eq 'ActiveDirectory') {
-
-                foreach ($User in $Object.ProcessingData.Users) {
-                    $Result = switch ( $Action.Action ) {
-                        AccountAddGroupsSpecific {
-                            $CommandOutput = Add-WinADUserGroups -User $User -Groups $Action.Value -FieldSearch 'Name' -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountDisable {
-                            $CommandOutput = Set-WinADUserStatus -User $User -Option Disable -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountEnable {
-                            $CommandOutput = Set-WinADUserStatus -User $User -Option Enable -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountHideInGAL {
-                            $CommandOutput = Set-WinADUserSettingGAL -User $User -Option Hide -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountShowInGAL {
-                            $CommandOutput = Set-WinADUserSettingGAL -User $User -Option Show -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRemoveGroupsAll {
-                            $CommandOutput = Remove-WinADUserGroups -User $User -All -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRemoveGroupsSecurity {
-                            $CommandOutput = Remove-WinADUserGroups -User $User -GroupCategory Security -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRemoveGroupsDistribution {
-                            $CommandOutput = Remove-WinADUserGroups -User $User -GroupCategory Distribution -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRemoveGroupsDomainLocal {
-                            $CommandOutput = Remove-WinADUserGroups -User $User -GroupScope DomainLocal -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRemoveGroupsGlobal {
-                            $CommandOutput = Remove-WinADUserGroups -User $User -GroupScope Global -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRemoveGroupsUniversal {
-                            $CommandOutput = Remove-WinADUserGroups -User $User -GroupScope Universal -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRemoveGroupsSpecific {
-                            $CommandOutput = Remove-WinADUserGroups -User $User -Groups $Action.Value -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                        AccountRename {
-                            if ($Action.Value.Action -eq 'AddText') {
-                                $CommandOutput = Set-WinADUserFields -User $User -Option $Action.Value.Where -TextToAdd $Action.Value.Text -Fields $Action.Value.Fields -WhatIf:$Action.WhatIf
-                                Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                            } elseif ($Action.Value.Action -eq 'RemoveText') {
-                                $CommandOutput = Set-WinADUserFields -User $User -TextToRemove $Action.Value.Text -Fields $Action.Value.Fields -WhatIf:$Action.WhatIf
-                                Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                            }
-                        }
-                        AccountSnapshot {
-                            $CommandOutput = Get-WinADUserSnapshot -User $User -XmlPath $Action.Value -WhatIf:$Action.WhatIf
-                            Out-ActionStatus -CommandOutput $CommandOutput -User $User -Name $Action.Name -WhatIf:$Action.WhatIf
-                        }
-                    }
-                }
+                Submit-ActiveDirectory -Object $Object -Action $Action
+            }
+            if ($Action.Type -eq 'AzureActiveDirectory') {
+                Submit-AzureActiveDirectory -Object $Object -Action $Action
             }
         }
     }

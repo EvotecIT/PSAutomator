@@ -4,7 +4,7 @@ Function Trigger {
         [Parameter(Mandatory = $false, ValueFromPipeline = $true, Position = 0)] $Object,
         [parameter(Mandatory = $false)] [string] $Name,
         [parameter(Mandatory = $false, ParameterSetName = "User")][PSAutomator.TriggerUserAD] $User,
-        [parameter(Mandatory = $false, ParameterSetName = "UserAzureAD")][PSAutomator.TriggerUserAD] $UserAzureAD,
+        [parameter(Mandatory = $false, ParameterSetName = "UserAzureAD")][PSAutomator.TriggerUserAzureAD] $UserAzureAD,
         [parameter(Mandatory = $false, ParameterSetName = "Group")][PSAutomator.TriggerGroup] $Group,
         [parameter(Mandatory = $false, ParameterSetName = "Computer")][PSAutomator.TriggerComputer] $Computer,
         [parameter(Mandatory = $false)] [Object] $Value

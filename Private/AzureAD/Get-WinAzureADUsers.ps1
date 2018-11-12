@@ -24,10 +24,11 @@ function Get-WinAzureADUsers {
     $UserSplat = @{}
     if ($UserPrincipalName) { $UserSplat.UserPrincipalName = $UserPrincipalName }
 
-    <#
-    DomainName                      = $DomainName
+    if ($DomainName) { $UserSplat.DomainName = $DomainName }
 
-    MaxResults                      = $MaxResults
+    if ($MaxResults) { $UserSplat.MaxResults = $MaxResults }
+
+    <#
     EnabledFilter                   = $Filter
     ReturnDeletedUsers              = $ReturnDeletedUsers
     UnlicensedUsersOnly             = $ReturnUnlicensedUsers
@@ -46,9 +47,15 @@ function Get-WinAzureADUsers {
     SearchString                    = $SearchString
     HasErrorsOnly                   = $HasErrorsOnly
     TenantID                        = $TenantId
-#>
+    #>
 
-    $Users = Get-MsolUser @UserSplat
+    if ($All) {
+        #$UserSplat.All = $All
+        #$UserSplat.DomainName = 'evotec.xyz'
+
+    }
+
+    $Users = Get-MsolUser -All:$All -Synchronized:$Synchronized -ReturnDeletedUsers:$ReturnDeletedUsers -UnlicensedUsersOnly:$ReturnUnlicensedUsers
     $Users
 
 }

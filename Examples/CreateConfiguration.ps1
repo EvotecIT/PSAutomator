@@ -54,19 +54,19 @@ $Configuration = [ordered] @{
                 SessionName = 'O365 Azure MSOL' # MSOL
             }
             AzureAD        = [ordered] @{
-                Use         = $true
+                Use         = $false
                 SessionName = 'O365 Azure AD' # Azure
                 Prefix      = ''
             }
             ExchangeOnline = [ordered] @{
-                Use            = $true
+                Use            = $false
                 Authentication = 'Basic'
                 ConnectionURI  = 'https://outlook.office365.com/powershell-liveid/'
                 Prefix         = 'O365'
                 SessionName    = 'O365 Exchange'
             }
-            Teams = [ordered] @{
-                Use         = $true
+            Teams          = [ordered] @{
+                Use         = $false
                 Prefix      = ''
                 SessionName = 'O365 Teams'
             }
