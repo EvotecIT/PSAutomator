@@ -1,4 +1,4 @@
-function Submit-AzureActiveDirectory {
+function Submit-ActionAzureActiveDirectory {
     [CmdletBinding()]
     param(
         $Object,

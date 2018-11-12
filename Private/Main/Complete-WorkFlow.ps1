@@ -71,8 +71,10 @@ Function Complete-WorkFlow {
             Write-Color @WriteInformation
             switch ($Ignore.Ignore) {
                 MatchingEmptyOrNull {
-                    $Field = "$($Ignore.Value)"
-                    $Object.ProcessingData.Users = $Object.ProcessingData.Users | Where-Object { $null -ne $_.$Field -and $_.$Field -ne '' }
+                    $Object.ProcessingData.Users = Submit-IgnoreMatchingEmptyOrNull -Object $Object.ProcessingData.Users -Value $Ignore.Value
+                }
+                MatchingFields {
+                    $Object.ProcessingData.Users = Submit-IgnoreMatchingFields -Object $Object.ProcessingData.Users -Value $Ignore.Value
                 }
             }
 
@@ -96,10 +98,10 @@ Function Complete-WorkFlow {
             Write-Color @WriteInformation
 
             if ($Action.Type -eq 'ActiveDirectory') {
-                Submit-ActiveDirectory -Object $Object -Action $Action
+                Submit-ActionActiveDirectory -Object $Object -Action $Action
             }
             if ($Action.Type -eq 'AzureActiveDirectory') {
-                Submit-AzureActiveDirectory -Object $Object -Action $Action
+                Submit-ActionAzureActiveDirectory -Object $Object -Action $Action
             }
         }
     }

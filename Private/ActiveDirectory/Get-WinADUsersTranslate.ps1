@@ -1,4 +1,5 @@
 function Get-WinADUsersTranslate {
+    [CmdletBinding()]
     param(
         [System.Object[]] $Users
     )

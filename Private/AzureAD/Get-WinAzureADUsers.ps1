@@ -1,4 +1,5 @@
 function Get-WinAzureADUsers {
+    [CmdletBinding()]
     param(
         [ValidateSet("All", "DisabledOnly", "EnabledOnly")][string] $Filter = 'All',
         [int] $MaxResults = 5000000,

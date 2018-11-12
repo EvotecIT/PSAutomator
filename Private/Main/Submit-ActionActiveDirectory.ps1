@@ -1,4 +1,4 @@
-function Submit-ActiveDirectory {
+function Submit-ActionActiveDirectory {
     [CmdletBinding()]
     param(
         $Object,

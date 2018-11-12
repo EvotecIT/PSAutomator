@@ -6,7 +6,6 @@ using System;
         [Flags]
         public enum Ignore {
             MatchingEmptyOrNull,
-            MatchingObjects,
             MatchingFields
         }
     }

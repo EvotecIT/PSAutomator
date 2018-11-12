@@ -1,4 +1,5 @@
 function Get-WinADUsers {
+    [CmdletBinding()]
     param(
         $Filter,
         $OrganizationalUnit,
@@ -13,12 +14,14 @@ function Get-WinADUsers {
         $Splatting = $Filter
     }
 
+    #Write-Color $Group -Color Red
     if ($Group) {
         $Users = @()
         $GroupMembers = Get-ADGroupMember -Identity $Group
         #Get-ADUser $Groupmembers
-        foreach ($Member in $GroupMembers) {
-            $Users += Get-ADUser -Identity $Member -Properties $Script:UserProperties #| Select-Object $Script:UserProperties
+        $Users = foreach ($Member in $GroupMembers) {
+            #Write-COlor $Member -Color Red
+            Get-ADUser -Identity $Member -Properties $Script:UserProperties #| Select-Object $Script:UserProperties
         }
     } else {
         $Users = Get-ADUser @Splatting -Properties $Script:UserProperties #| Select-Object $Script:UserProperties

@@ -38,7 +38,6 @@
         'Enums\Condition.ps1',
         'Enums\Connect.ps1',
         'Enums\Ignore.ps1',
-        'Enums\IgnoreType.ps1',
         'Enums\TriggerComputer.ps1',
         'Enums\TriggerGroup.ps1',
         'Enums\TriggerUserAD.ps1',

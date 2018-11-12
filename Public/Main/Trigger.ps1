@@ -31,7 +31,7 @@ Function Trigger {
             Type  = $PSCmdlet.ParameterSetName
         }
         switch ($PSCmdlet.ParameterSetName) {
-            UserAD {
+            User {
                 $Trigger.Trigger = $User
             }
             UserAzureAD {
