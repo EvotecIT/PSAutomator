@@ -45,8 +45,8 @@
     )
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Action', 'Connect', 'Condition', 'Ignore', 'Service', 'Trigger', 'New-PSAutomatorConfiguration')
-    #FunctionsToExport = '*'
+    #FunctionsToExport = @('Action', 'Connect', 'Condition', 'Ignore', 'Service', 'Trigger', 'New-PSAutomatorConfiguration')
+    FunctionsToExport = '*'
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
     PrivateData       = @{
 
