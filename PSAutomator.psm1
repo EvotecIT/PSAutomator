@@ -19,8 +19,8 @@ Foreach ($Import in @($Assembly)) {
     }
 }
 
-Export-ModuleMember -Function 'Action', 'Condition', 'Ignore', 'Service', 'Trigger', 'New-PSAutomatorConfiguration'
-#Export-ModuleMember -Function '*'
+#Export-ModuleMember -Function 'Action', 'Condition', 'Ignore', 'Service', 'Trigger', 'New-PSAutomatorConfiguration'
+Export-ModuleMember -Function '*'
 
 [string] $ManifestFile = '{0}.psd1' -f (Get-Item $PSCommandPath).BaseName;
 $ManifestPathAndFile = Join-Path -Path $PSScriptRoot -ChildPath $ManifestFile;

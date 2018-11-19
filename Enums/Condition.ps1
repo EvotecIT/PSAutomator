@@ -5,8 +5,10 @@ Add-Type -TypeDefinition @"
     {
         [Flags]
         public enum Condition {
-            RequireGroupMembership,
-            RequireLastModified
+            EmptyOrNull,
+            Field,
+            GroupMembership,
+            OrganizationalUnit
         }
     }
 "@

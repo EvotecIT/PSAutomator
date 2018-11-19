@@ -11,7 +11,15 @@ function Get-WinADUsers {
         $Splatting.Filter = '*'
     }
     if ($Filter) {
-        $Splatting = $Filter
+        if ($Filter -is [hashtable]) {
+            # $Splatting.Filter = $Filter.Filter
+            # $Splatting.SearchBase = $Filter.SearchBase
+            $Splatting = $Filter
+        } elseif ($Filter -is [string]) {
+            $Splatting.Filter = $Filter
+        } else {
+
+        }
     }
 
     #Write-Color $Group -Color Red
@@ -26,7 +34,68 @@ function Get-WinADUsers {
     } else {
         $Users = Get-ADUser @Splatting -Properties $Script:UserProperties #| Select-Object $Script:UserProperties
     }
-    return $Users
+
+
+    $UserList = foreach ($U in $Users) {
+        $Manager = Get-WinADUsersByDN -DistinguishedName $U.Manager
+        $PrimaryGroup = Get-WinADGroupsByDN -DistinguishedName $U.PrimaryGroup -All #-Field 'Name'
+        $Groups = Get-WinADGroupsByDN -DistinguishedName $U.MemberOf -All #-Field 'Name'
+
+        <# Groups return this
+            DistinguishedName : CN=Disabled Users,OU=SecurityGroups,OU=Groups,OU=Production,DC=ad,DC=evotec,DC=xyz
+            GroupCategory     : Security
+            GroupScope        : Universal
+            Name              : Disabled Users
+            ObjectClass       : group
+            ObjectGUID        : b7b5961e-e190-4f01-973f-abdf824261a3
+            SamAccountName    : Disabled Users
+            SID               : S-1-5-21-853615985-2870445339-3163598659-1162
+        #>
+
+        [PsCustomObject][ordered] @{
+            'Name'                              = $U.Name
+            'UserPrincipalName'                 = $U.UserPrincipalName
+            'SamAccountName'                    = $U.SamAccountName
+            'Display Name'                      = $U.DisplayName
+            'Given Name'                        = $U.GivenName
+            'Surname'                           = $U.Surname
+            'EmailAddress'                      = $U.EmailAddress
+            'PasswordExpired'                   = $U.PasswordExpired
+            'PasswordLastSet'                   = $U.PasswordLastSet
+            'Password Last Changed'             = if ($U.PasswordLastSet -ne $Null) { "$(-$($U.PasswordLastSet - [DateTime]::Today).Days) days" } else { 'N/A'}
+            'PasswordNotRequired'               = $U.PasswordNotRequired
+            'PasswordNeverExpires'              = $U.PasswordNeverExpires
+            'Enabled'                           = $U.Enabled
+            'Manager'                           = $Manager.Name
+            'Manager Email'                     = $Manager.EmailAddress
+            'DateExpiry'                        = Convert-ToDateTime -Timestring $($U."msDS-UserPasswordExpiryTimeComputed") #-Verbose
+            "DaysToExpire"                      = (Convert-TimeToDays -StartTime GET-DATE -EndTime (Convert-ToDateTime -Timestring $($U."msDS-UserPasswordExpiryTimeComputed")))
+            "AccountExpirationDate"             = $U.AccountExpirationDate
+            "AccountLockoutTime"                = $U.AccountLockoutTime
+            "AllowReversiblePasswordEncryption" = $U.AllowReversiblePasswordEncryption
+            "BadLogonCount"                     = $U.BadLogonCount
+            "CannotChangePassword"              = $U.CannotChangePassword
+            "CanonicalName"                     = $U.CanonicalName
+
+            "Description"                       = $U.Description
+            "DistinguishedName"                 = $U.DistinguishedName
+            "EmployeeID"                        = $U.EmployeeID
+            "EmployeeNumber"                    = $U.EmployeeNumber
+            "LastBadPasswordAttempt"            = $U.LastBadPasswordAttempt
+            "LastLogonDate"                     = $U.LastLogonDate
+
+            "Created"                           = $U.Created
+            "Modified"                          = $U.Modified
+            "Protected"                         = $U.ProtectedFromAccidentalDeletion
+
+            "PrimaryGroup"                      = $PrimaryGroup # Whole Object
+            "MemberOf"                          = $Groups #Whole Objects
+            #"Domain"                            = $Domain
+            'Identity'                          = $U.Identity
+        }
+
+    }
+    return $UserList
 }
 <#
 
@@ -41,7 +110,8 @@ $Splat = @{
 
 Get-ADUser @Splat
 #>
-<#
+
+
 $Script:UserProperties = 'Name', 'UserPrincipalName', 'SamAccountName', 'Enabled', 'PasswordLastSet', `
     'PasswordExpired', 'PasswordNeverExpires', 'PasswordNotRequired', 'EmailAddress', 'DisplayName', 'GivenName', `
     'Surname', 'Manager', "AccountExpirationDate", "AccountLockoutTime", "AllowReversiblePasswordEncryption", `
@@ -50,9 +120,29 @@ $Script:UserProperties = 'Name', 'UserPrincipalName', 'SamAccountName', 'Enabled
     'msDS-UserPasswordExpiryTimeComputed','msExchHideFromAddressLists'
 
 
+$User = Get-WinADUsers -Filter "UserPrincipalName -eq 'przemyslaw.klys@ad.evotec.xyz'"
+#$User.MemberOf.Name
+#$User."MemberOf.Name"
 
-#Get-WinADUsers
+$string = 'memberOf.Name'
+$value = $user
+foreach($part in $string.Split('.')){
+    $Part
+    $value = $value."$part"
+}
 
-Get-Aduser -Filter * -Properties * | Select-Object MemberOf
+
+#Get-Aduser -Filter * -Properties * | Select-Object MemberOf
+
+#>
+<#
+$Script:UserProperties = 'Name', 'UserPrincipalName', 'SamAccountName', 'Enabled', 'PasswordLastSet', `
+    'PasswordExpired', 'PasswordNeverExpires', 'PasswordNotRequired', 'EmailAddress', 'DisplayName', 'GivenName', `
+    'Surname', 'Manager', "AccountExpirationDate", "AccountLockoutTime", "AllowReversiblePasswordEncryption", `
+    "BadLogonCount", "CannotChangePassword", "CanonicalName", "Description", "DistinguishedName", "EmployeeID", `
+    "EmployeeNumber", "LastBadPasswordAttempt", "LastLogonDate", "Created", "Modified", "PrimaryGroup", "MemberOf", `
+    'msDS-UserPasswordExpiryTimeComputed','msExchHideFromAddressLists'
+
+Get-WinADUsers -Filter '*'
 
 #>

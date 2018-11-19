@@ -20,3 +20,6 @@ function Get-WinADGroups {
 }
 
 #Get-ADGroup -Filter * -Properties * # $Script:GroupProperties
+
+
+#Get-WinADGroupsByDN -DistinguishedName 'CN=Disabled Users,OU=SecurityGroups,OU=Groups,OU=Production,DC=ad,DC=evotec,DC=xyz' -Field 'Name'

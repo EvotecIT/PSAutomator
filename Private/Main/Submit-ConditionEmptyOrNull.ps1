@@ -1,4 +1,4 @@
-function Submit-IgnoreMatchingEmptyOrNull {
+function Submit-ConditionEmptyOrNull {
     param(
         [Object] $Object,
         [Object] $Value

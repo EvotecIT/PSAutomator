@@ -2,8 +2,8 @@ function Out-ActionStatus {
     [CmdletBinding(DefaultParameterSetName = 'ActiveDirectory')]
     param(
         [parameter(Mandatory = $false)][Array] $CommandOutput,
-        [parameter(Mandatory = $true, ParameterSetName = "ActiveDirectory")][Microsoft.ActiveDirectory.Management.ADAccount] $User,
-        [parameter(Mandatory = $true, ParameterSetName = "AzureActiveDirectory")]$UserAzureAD, # [Microsoft.Online.Administration.User] $UserAzureAD,
+        [parameter(Mandatory = $true, ParameterSetName = "ActiveDirectory")][Object] $User,
+        [parameter(Mandatory = $true, ParameterSetName = "AzureActiveDirectory")][Object] $UserAzureAD, # [Microsoft.Online.Administration.User] $UserAzureAD,
         [parameter(Mandatory = $true)][string] $Name,
         [switch] $WhatIf
     )

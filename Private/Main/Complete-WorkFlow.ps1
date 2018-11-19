@@ -71,10 +71,34 @@ Function Complete-WorkFlow {
             Write-Color @WriteInformation
             switch ($Ignore.Ignore) {
                 MatchingEmptyOrNull {
-                    $Object.ProcessingData.Users = Submit-IgnoreMatchingEmptyOrNull -Object $Object.ProcessingData.Users -Value $Ignore.Value
+                    $Object.ProcessingData.Users = Submit-ConditionEmptyOrNull -Object $Object.ProcessingData.Users -Value $Ignore.Value
                 }
                 MatchingFields {
-                    $Object.ProcessingData.Users = Submit-IgnoreMatchingFields -Object $Object.ProcessingData.Users -Value $Ignore.Value
+                    $Object.ProcessingData.Users = Submit-ConditionFields -Object $Object.ProcessingData.Users -Value $Ignore.Value
+                }
+            }
+
+        }
+
+        foreach ($Condition in $Object.Conditions) {
+            $WriteInformation = @{
+                Text        = '[+]', ' Running Condition', ' for ', $Condition.Name
+                Color       = [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::White, [ConsoleColor]::Magenta
+                StartSpaces = 4
+            }
+            Write-Color @WriteInformation
+            switch ($Condition.Condition) {
+                EmptyOrNull {
+                    $Object.ProcessingData.Users = Submit-ConditionEmptyOrNull -Object $Object.ProcessingData.Users -Value $Condition.Value
+                }
+                Fields {
+                    $Object.ProcessingData.Users = Submit-ConditionFields -Type 'Default' -Object $Object.ProcessingData.Users -Value $Condition.Value
+                }
+                GroupMembership {
+                    $Object.ProcessingData.Users = Submit-ConditionFields -Type 'GroupMembership' -Object $Object.ProcessingData.Users -Value $Condition.Value
+                }
+                OrganizationalUnit {
+                    $Object.ProcessingData.Users = Submit-ConditionFields -Type 'OrganizationalUnit' -Object $Object.ProcessingData.Users -Value $Condition.Value
                 }
             }
 
