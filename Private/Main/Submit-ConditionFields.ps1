@@ -12,7 +12,7 @@ function Submit-ConditionFields {
 
     } elseif ($Type -eq 'GroupMembership') {
         $Field = "MemberOf.$($Value.Field)"
-        Write-Color -Text 'test ', $Field -Color Red
+        #Write-Color -Text 'test ', $Field -Color Red
     }
 
 
