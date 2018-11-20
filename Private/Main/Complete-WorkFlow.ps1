@@ -81,27 +81,38 @@ Function Complete-WorkFlow {
         }
 
         foreach ($Condition in $Object.Conditions) {
-            $WriteInformation = @{
-                Text        = '[+]', ' Running Condition', ' for ', $Condition.Name
-                Color       = [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::White, [ConsoleColor]::Magenta
-                StartSpaces = 4
+            if ($Condition.Value -and $Condition.Condition) {
+                $WriteInformation = @{
+                    Text        = '[+]', ' Running Condition', ' for ', $Condition.Name, ' as ', $Condition.Condition, ' with operator ', $Condition.Value.Operator, ' on field ', $Condition.Value.Field
+                    Color       = [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::White, `
+                        [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, `
+                        [ConsoleColor]::White, [ConsoleColor]::Magenta
+                    StartSpaces = 4
+                }
+                Write-Color @WriteInformation
+                switch ($Condition.Condition) {
+                    EmptyOrNull {
+                        $Object.ProcessingData.Users = Submit-ConditionEmptyOrNull -Object $Object.ProcessingData.Users -Value $Condition.Value
+                    }
+                    Field {
+                        $Object.ProcessingData.Users = Submit-ConditionFields -Type 'Default' -Object $Object.ProcessingData.Users -Value $Condition.Value
+                    }
+                    GroupMembership {
+                        $Object.ProcessingData.Users = Submit-ConditionFields -Type 'GroupMembership' -Object $Object.ProcessingData.Users -Value $Condition.Value
+                    }
+                    OrganizationalUnit {
+                        $Object.ProcessingData.Users = Submit-ConditionFields -Type 'OrganizationalUnit' -Object $Object.ProcessingData.Users -Value $Condition.Value
+                    }
+                }
+            } else {
+                $WriteInformation = @{
+                    Text        = '[-]', ' Running Condition', ' for ', $Condition.Name, ' was skipped due to either ', 'Condition', ' or/and ', 'Value', ' missing.'
+                    Color       = [ConsoleColor]::Red, [ConsoleColor]::White, [ConsoleColor]::White, `
+                        [ConsoleColor]::Red, [ConsoleColor]::White, [ConsoleColor]::Red, [ConsoleColor]::White, [ConsoleColor]::Red, [ConsoleColor]::White, [ConsoleColor]::Red, [ConsoleColor]::White
+                    StartSpaces = 4
+                }
+                Write-Color @WriteInformation
             }
-            Write-Color @WriteInformation
-            switch ($Condition.Condition) {
-                EmptyOrNull {
-                    $Object.ProcessingData.Users = Submit-ConditionEmptyOrNull -Object $Object.ProcessingData.Users -Value $Condition.Value
-                }
-                Fields {
-                    $Object.ProcessingData.Users = Submit-ConditionFields -Type 'Default' -Object $Object.ProcessingData.Users -Value $Condition.Value
-                }
-                GroupMembership {
-                    $Object.ProcessingData.Users = Submit-ConditionFields -Type 'GroupMembership' -Object $Object.ProcessingData.Users -Value $Condition.Value
-                }
-                OrganizationalUnit {
-                    $Object.ProcessingData.Users = Submit-ConditionFields -Type 'OrganizationalUnit' -Object $Object.ProcessingData.Users -Value $Condition.Value
-                }
-            }
-
         }
 
 

@@ -24,6 +24,7 @@ function Submit-ConditionFields {
         } elseif ($Type -eq 'GroupMembership') {
             return $Object | Where-Object { $_.MemberOf.$Field -notlike $Value }
         } else {
+
             return $Object | Where-Object { $_.$Field -notlike $Value }
         }
     }
@@ -130,4 +131,63 @@ function Submit-ConditionFields {
     }
 
 
+    if ($Operator -eq 'gt') {
+        if ($Type -eq 'OrganizationalUnit') {
+            return $Object | Where-Object { $_.OrganizationalUnit.$Field -gt $Value }
+        } elseif ($Type -eq 'GroupMembership') {
+            return $Object | Where-Object { $_.MemberOf.$Field -gt $Value }
+        } else {
+            return $Object | Where-Object { $_.$Field -gt $Value }
+        }
+    }
+
+    if ($Operator -eq 'ge') {
+        if ($Type -eq 'OrganizationalUnit') {
+            return $Object | Where-Object { $_.OrganizationalUnit.$Field -ge $Value }
+        } elseif ($Type -eq 'GroupMembership') {
+            return $Object | Where-Object { $_.MemberOf.$Field -ge $Value }
+        } else {
+            return $Object | Where-Object { $_.$Field -ge $Value }
+        }
+    }
+
+    if ($Operator -eq 'lt') {
+        if ($Type -eq 'OrganizationalUnit') {
+            return $Object | Where-Object { $_.OrganizationalUnit.$Field -lt $Value }
+        } elseif ($Type -eq 'GroupMembership') {
+            return $Object | Where-Object { $_.MemberOf.$Field -lt $Value }
+        } else {
+            return $Object | Where-Object { $_.$Field -lt $Value }
+        }
+    }
+
+    if ($Operator -eq 'le') {
+        if ($Type -eq 'OrganizationalUnit') {
+            return $Object | Where-Object { $_.OrganizationalUnit.$Field -le $Value }
+        } elseif ($Type -eq 'GroupMembership') {
+            return $Object | Where-Object { $_.MemberOf.$Field -le $Value }
+        } else {
+            return $Object | Where-Object { $_.$Field -le $Value }
+        }
+    }
+
+    if ($Operator -eq 'match') {
+        if ($Type -eq 'OrganizationalUnit') {
+            return $Object | Where-Object { $_.OrganizationalUnit.$Field -match $Value }
+        } elseif ($Type -eq 'GroupMembership') {
+            return $Object | Where-Object { $_.MemberOf.$Field -match $Value }
+        } else {
+            return $Object | Where-Object { $_.$Field -match $Value }
+        }
+    }
+
+    if ($Operator -eq 'match') {
+        if ($Type -eq 'OrganizationalUnit') {
+            return $Object | Where-Object { $_.OrganizationalUnit.$Field -notmatch $Value }
+        } elseif ($Type -eq 'GroupMembership') {
+            return $Object | Where-Object { $_.MemberOf.$Field -notmatch $Value }
+        } else {
+            return $Object | Where-Object { $_.$Field -match $Value }
+        }
+    }
 }

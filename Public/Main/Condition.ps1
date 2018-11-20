@@ -13,7 +13,7 @@ function Condition {
             Exit
         }
         $Object.Conditions += @{
-            Name      = $Name
+            Name      = if ($Name -eq '') { 'No name given' } else { $Name }
             Condition = $Condition
             Value     = $Value
         }
