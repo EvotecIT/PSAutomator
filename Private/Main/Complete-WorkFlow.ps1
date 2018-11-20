@@ -138,6 +138,9 @@ Function Complete-WorkFlow {
             if ($Action.Type -eq 'AzureActiveDirectory') {
                 Submit-ActionAzureActiveDirectory -Object $Object -Action $Action
             }
+            if ($Action.Type -eq 'Exchange') {
+
+            }
         }
     }
     End {

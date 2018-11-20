@@ -7,7 +7,8 @@ Add-Type -TypeDefinition @"
         public enum ActionExchange {
             MailboxConvertToSharedMailbox,  // True/False
             MailboxEmailAddressPolicyEnable, // True/False
-            ContactConvertToMailContact // Array
+            ContactConvertToMailContact, // Array
+            MailboxRemoteEnable
         }
     }
 "@

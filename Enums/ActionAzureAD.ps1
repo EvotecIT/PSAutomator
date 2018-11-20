@@ -16,11 +16,12 @@ Add-Type -TypeDefinition @"
             AccountSnapshot,
             AddLicense,
             RemoveLicense,
+            RemoveLicenseAll,
             ReplaceLicense,
             EnableMFA,
             DisableMFA,
             SetUserRole,
-            SetFields,
+            SetField,
             SynchronizeFields
         }
     }
