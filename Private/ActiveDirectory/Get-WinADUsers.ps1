@@ -40,17 +40,8 @@ function Get-WinADUsers {
         $Manager = Get-WinADUsersByDN -DistinguishedName $U.Manager
         $PrimaryGroup = Get-WinADGroupsByDN -DistinguishedName $U.PrimaryGroup -All #-Field 'Name'
         $Groups = Get-WinADGroupsByDN -DistinguishedName $U.MemberOf -All #-Field 'Name'
-
-        <# Groups return this
-            DistinguishedName : CN=Disabled Users,OU=SecurityGroups,OU=Groups,OU=Production,DC=ad,DC=evotec,DC=xyz
-            GroupCategory     : Security
-            GroupScope        : Universal
-            Name              : Disabled Users
-            ObjectClass       : group
-            ObjectGUID        : b7b5961e-e190-4f01-973f-abdf824261a3
-            SamAccountName    : Disabled Users
-            SID               : S-1-5-21-853615985-2870445339-3163598659-1162
-        #>
+        $OrganizationalUnit = Get-WinADOrganizationalUnitFromDN -DistinguishedName $U.DistinguishedName
+        $OrganizationalUnitData = Get-WinADOrganizationalUnitData -OrganizationalUnit $OrganizationalUnit
 
         [PsCustomObject][ordered] @{
             'Name'                              = $U.Name
@@ -92,6 +83,8 @@ function Get-WinADUsers {
             "MemberOf"                          = $Groups #Whole Objects
             #"Domain"                            = $Domain
             'Identity'                          = $U.Identity
+            'OU'                                = $OrganizationalUnit
+            'OrganizationalUnit'                = $OrganizationalUnitData
         }
 
     }
@@ -111,6 +104,7 @@ $Splat = @{
 Get-ADUser @Splat
 #>
 
+<#
 
 $Script:UserProperties = 'Name', 'UserPrincipalName', 'SamAccountName', 'Enabled', 'PasswordLastSet', `
     'PasswordExpired', 'PasswordNeverExpires', 'PasswordNotRequired', 'EmailAddress', 'DisplayName', 'GivenName', `
@@ -130,7 +124,7 @@ foreach($part in $string.Split('.')){
     $Part
     $value = $value."$part"
 }
-
+#>
 
 #Get-Aduser -Filter * -Properties * | Select-Object MemberOf
 
