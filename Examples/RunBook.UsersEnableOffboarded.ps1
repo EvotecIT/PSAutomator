@@ -4,7 +4,7 @@ Import-Module PSSharedGoods #-Force
 
 Service -Name 'Active Directory Enable Users in OU' {
     Trigger -Name 'Find Offboarded Users' -User OrganizationalUnit -Value 'OU=Users-Offboarded,OU=Production,DC=ad,DC=evotec,DC=xyz' |
-        Ignore |
+        Condition |
         Action -Name 'Enable Offboarded Users' -ActiveDirectory AccountEnable -WhatIf |
         Action -Name 'Add to group GDS-TestGroup5' -ActiveDirectory AccountAddGroupsSpecific -Value 'GDS-TestGroup5' -WhatIf |
         Action -Name 'Add to group GDS-TestGroup4' -ActiveDirectory AccountAddGroupsSpecific -Value 'GDS-TestGroup4' -Whatif |

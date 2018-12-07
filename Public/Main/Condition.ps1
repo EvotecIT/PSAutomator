@@ -1,9 +1,10 @@
 function Condition {
     [CmdletBinding()]
+    [alias('Ignore')]
     param(
         [Parameter(ValueFromPipeline = $true, Mandatory = $false, Position = 0)] $Object,
         [string] $Name,
-        [PSAutomator.Condition] $Condition,
+        [alias('Ignore')][PSAutomator.Condition] $Condition,
         [Object] $Value
     )
     Begin {}
