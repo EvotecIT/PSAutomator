@@ -74,6 +74,7 @@ function Get-WinADUsers {
             "EmployeeNumber"                    = $U.EmployeeNumber
             "LastBadPasswordAttempt"            = $U.LastBadPasswordAttempt
             "LastLogonDate"                     = $U.LastLogonDate
+            'Last Logon Days'                   = if ($U.LastLogonDate -ne $Null) { "$(-$($U.LastLogonDate - [DateTime]::Today).Days) days" } else { 'N/A'}
 
             "Created"                           = $U.Created
             "Modified"                          = $U.Modified

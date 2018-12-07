@@ -20,8 +20,8 @@ function Out-ConfigurationStatus {
     if ($Option -eq 'Start') {
         Write-Color @WriteStatusSuccess -Text '[+] ', 'Running ', 'Configuration'
     } elseif ($Option -eq 'End') {
-        Write-Color @WriteStatusEnd -Text '[+] ', 'Running ', 'Configuration'
+        Write-Color @WriteStatusEnd -Text '[+] ', 'Ending ', 'Configuration'
     } else {
-        Write-Color @WriteStatusFail -Text '[-] ', 'Ending ', 'Configuration'
+        Write-Color @WriteStatusFail -Text '[-] ', 'Failed ', 'Configuration'
     }
 }

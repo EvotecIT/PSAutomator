@@ -62,32 +62,25 @@ Function Complete-WorkFlow {
             }
         }
 
-        foreach ($Ignore in $Object.Ignores) {
-            $WriteInformation = @{
-                Text        = '[+]', ' Running Ignore', ' for ', $Ignore.Name
-                Color       = [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::White, [ConsoleColor]::Magenta
-                StartSpaces = 4
-            }
-            Write-Color @WriteInformation
-            switch ($Ignore.Ignore) {
-                MatchingEmptyOrNull {
-                    $Object.ProcessingData.Users = Submit-ConditionEmptyOrNull -Object $Object.ProcessingData.Users -Value $Ignore.Value
-                }
-                MatchingFields {
-                    $Object.ProcessingData.Users = Submit-ConditionFields -Object $Object.ProcessingData.Users -Value $Ignore.Value
-                }
-            }
-
-        }
 
         foreach ($Condition in $Object.Conditions) {
-            if ($Condition.Value -and $Condition.Condition) {
-                $WriteInformation = @{
-                    Text        = '[+]', ' Running Condition', ' for ', $Condition.Name, ' as ', $Condition.Condition, ' with operator ', $Condition.Value.Operator, ' on field ', $Condition.Value.Field
-                    Color       = [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::White, `
-                        [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, `
-                        [ConsoleColor]::White, [ConsoleColor]::Magenta
-                    StartSpaces = 4
+            if (-not [string]::IsNullOrEmpty($Condition.Value) -and $Condition.Condition -ne $null) {
+                if ($Condition.Value -is [string]) {
+                    $WriteInformation = @{
+                        Text        = '[+]', ' Running Condition', ' for ', $Condition.Name, ' as ', $Condition.Condition
+                        Color       = [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::White, `
+                            [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, `
+                            [ConsoleColor]::White, [ConsoleColor]::Magenta
+                        StartSpaces = 4
+                    }
+                } else {
+                    $WriteInformation = @{
+                        Text        = '[+]', ' Running Condition', ' for ', $Condition.Name, ' as ', $Condition.Condition, ' with operator ', $Condition.Value.Operator, ' on field ', $Condition.Value.Field
+                        Color       = [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::White, `
+                            [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, [ConsoleColor]::White, [ConsoleColor]::Magenta, `
+                            [ConsoleColor]::White, [ConsoleColor]::Magenta
+                        StartSpaces = 4
+                    }
                 }
                 Write-Color @WriteInformation
                 switch ($Condition.Condition) {
