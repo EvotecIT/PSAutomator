@@ -60,7 +60,7 @@ function Get-WinADUsers {
             'Manager'                           = $Manager.Name
             'Manager Email'                     = $Manager.EmailAddress
             'DateExpiry'                        = Convert-ToDateTime -Timestring $($U."msDS-UserPasswordExpiryTimeComputed") #-Verbose
-            "DaysToExpire"                      = (Convert-TimeToDays -StartTime GET-DATE -EndTime (Convert-ToDateTime -Timestring $($U."msDS-UserPasswordExpiryTimeComputed")))
+            "DaysToExpire"                      = (Convert-TimeToDays -StartTime (GET-DATE) -EndTime (Convert-ToDateTime -Timestring $($U."msDS-UserPasswordExpiryTimeComputed")))
             "AccountExpirationDate"             = $U.AccountExpirationDate
             "AccountLockoutTime"                = $U.AccountLockoutTime
             "AllowReversiblePasswordEncryption" = $U.AllowReversiblePasswordEncryption
